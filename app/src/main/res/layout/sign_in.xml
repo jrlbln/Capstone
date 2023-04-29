@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/crumpledPaper"
+    android:background="@drawable/crumpled_paper"
     tools:context=".SignIn"
     tools:layout_editor_absoluteX="-79dp"
     tools:layout_editor_absoluteY="-41dp">
@@ -16,6 +16,7 @@
         android:layout_marginTop="156dp"
         android:text="Welcome!"
         android:textSize="35sp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.214"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +39,7 @@
             android:layout_height="25dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            app:srcCompat="@drawable/User" />
+            app:srcCompat="@drawable/user" />
 
         <TextView
             android:id="@+id/user"
@@ -96,6 +97,7 @@
         android:layout_marginTop="20dp"
         android:text="Don't have an account yet? Sign Up"
         android:textSize="15sp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.311"
         app:layout_constraintStart_toStartOf="parent"
@@ -108,6 +110,7 @@
         android:layout_marginTop="100dp"
         android:text="Sign In"
         android:textSize="30sp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUp" />
