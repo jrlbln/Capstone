@@ -5,19 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/crumpled_paper"
-    tools:context=".SignIn"
-    tools:layout_editor_absoluteX="-79dp"
-    tools:layout_editor_absoluteY="-41dp">
+    tools:context=".SignUp">
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="156dp"
-        android:text="Welcome!"
+        android:layout_marginTop="168dp"
+        android:text="Create an Account"
         android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.214"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,10 +23,11 @@
         android:id="@+id/linearLayout"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/box"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView1">
 
@@ -46,17 +45,16 @@
             android:layout_height="50dp"
             android:gravity="center_vertical"
             android:padding="10dp"
-            android:hint="Email"
+            android:hint="Enter Email"
             android:textColorHint="@color/text"
             android:inputType="textEmailAddress"/>
-
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/linear_pass"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/box"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +62,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <ImageView
-            android:id="@+id/pass_img"
+            android:id="@+id/pass_img1"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_gravity="center"
@@ -72,38 +70,55 @@
             app:srcCompat="@drawable/password" />
 
         <TextView
-            android:id="@+id/password"
+            android:id="@+id/pass"
             android:layout_width="255dp"
             android:layout_height="50dp"
             android:gravity="center_vertical"
             android:padding="10dp"
-            android:hint="Password"
+            android:hint="Enter Password"
             android:textColorHint="@color/text"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"/>
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/linear_pass2"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/box"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear_pass">
+
+        <ImageView
+            android:id="@+id/pass_img2"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            app:srcCompat="@drawable/password" />
+
+        <TextView
+            android:id="@+id/re_pass"
+            android:layout_width="255dp"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:hint="Confirm Password"
+            android:textColorHint="@color/text"
+            android:inputType="textPassword"/>
     </LinearLayout>
 
     <TextView
-        android:id="@+id/signUp"
+        android:id="@+id/SignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Don't have an account yet? Sign Up"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.311"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
-
-    <TextView
-        android:id="@+id/SignIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="Sign In"
+        android:layout_marginTop="60dp"
+        android:text="Sign Up"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUp" />
+        app:layout_constraintTop_toBottomOf="@+id/linear_pass2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
