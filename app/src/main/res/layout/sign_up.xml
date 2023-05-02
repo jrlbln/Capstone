@@ -103,21 +103,28 @@
             android:layout_width="255dp"
             android:layout_height="50dp"
             android:gravity="center_vertical"
-            android:padding="10dp"
             android:hint="Confirm Password"
-            android:textColorHint="@color/text"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:textColorHint="@color/text" />
+
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/SignUp"
+    <Button
+        android:id="@+id/signup_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:width="200dp"
+        android:background="@drawable/gradientbutton"
+        android:clickable="true"
+        android:fontFamily="@font/poppinsreg"
         android:text="Sign Up"
-        android:textSize="30sp"
+        android:textColor="#ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear_pass2" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.758" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

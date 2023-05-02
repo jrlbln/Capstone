@@ -3,6 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="text">#626262</color>
-    <color name="tab_indicator_unselected">#626262</color>
-    <color name="tab_indicator_color">#ff000000</color>
+    <color name="signUp">#7471fc</color>
+    <color name="unselected">#262626</color>
+    <color name="selected">#626262</color>
 </resources>

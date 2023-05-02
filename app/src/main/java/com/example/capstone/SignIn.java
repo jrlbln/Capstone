@@ -15,11 +15,20 @@ public class SignIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_in);
 
-        TextView loginText = findViewById(R.id.SignIn);
-        loginText.setOnClickListener(new View.OnClickListener() {
+        Button loginButton = findViewById(R.id.login_button);
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Intent intent = new Intent(SignIn.this, LandingPage.class);
+                startActivity(intent);
+            }
+        });
+
+        TextView loginLink = findViewById(R.id.signUp);
+        loginLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SignIn.this, SignUp.class);
                 startActivity(intent);
             }
         });

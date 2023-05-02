@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Capstone"
         tools:targetApi="31">
         <activity
-            android:name="GetStarted"
+            android:name=".LandingPage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LandingPage"/>
+        <activity android:name=".SignUp"/>
         <activity android:name=".SignIn"/>
 
     </application>
