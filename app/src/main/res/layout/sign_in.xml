@@ -15,8 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="156dp"
         android:text="Welcome!"
-        android:textSize="35sp"
         android:textColor="@color/black"
+        android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.214"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,10 +46,10 @@
             android:layout_width="255dp"
             android:layout_height="50dp"
             android:gravity="center_vertical"
-            android:padding="10dp"
             android:hint="Email"
-            android:textColorHint="@color/text"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress"
+            android:padding="10dp"
+            android:textColorHint="@color/text" />
 
     </LinearLayout>
 
@@ -77,10 +77,10 @@
             android:layout_width="255dp"
             android:layout_height="50dp"
             android:gravity="center_vertical"
-            android:padding="10dp"
             android:hint="Password"
-            android:textColorHint="@color/text"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:textColorHint="@color/text" />
 
     </LinearLayout>
 
@@ -90,8 +90,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Don't have an account yet? Sign Up"
-        android:textSize="15sp"
         android:textColor="@color/black"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.311"
         app:layout_constraintStart_toStartOf="parent"
@@ -103,8 +103,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:text="Sign In"
-        android:textSize="30sp"
         android:textColor="@color/black"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUp" />
