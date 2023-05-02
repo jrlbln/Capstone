@@ -5,5 +5,5 @@
     <color name="text">#626262</color>
     <color name="signUp">#7471fc</color>
     <color name="unselected">#262626</color>
-    <color name="selected">#626262</color>
+    <color name="selected">#7471fc</color>
 </resources>
