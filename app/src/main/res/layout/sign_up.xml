@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/crumpled_paper"
     tools:context=".SignUp">
 
     <TextView
@@ -37,7 +36,7 @@
             android:layout_height="25dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            app:srcCompat="@drawable/user" />
+            app:srcCompat="@drawable/theuser" />
 
         <TextView
             android:id="@+id/user"
