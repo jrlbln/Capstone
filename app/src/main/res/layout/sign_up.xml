@@ -18,97 +18,51 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/box"
-        android:orientation="horizontal"
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:width="300dp"
+        android:ems="10"
+        android:hint="Enter Email"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView1">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.361" />
 
-        <ImageView
-            android:id="@+id/user_img"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            app:srcCompat="@drawable/theuser" />
-
-        <TextView
-            android:id="@+id/user"
-            android:layout_width="255dp"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:padding="10dp"
-            android:hint="Enter Email"
-            android:textColorHint="@color/text"
-            android:inputType="textEmailAddress"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linear_pass"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/box"
-        android:orientation="horizontal"
+    <EditText
+        android:id="@+id/confirmPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:width="300dp"
+        android:ems="10"
+        android:hint="Confirm Password"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.539" />
 
-        <ImageView
-            android:id="@+id/pass_img1"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            app:srcCompat="@drawable/password" />
 
-        <TextView
-            android:id="@+id/pass"
-            android:layout_width="255dp"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:padding="10dp"
-            android:hint="Enter Password"
-            android:textColorHint="@color/text"
-            android:inputType="textPassword"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linear_pass2"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/box"
-        android:orientation="horizontal"
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:width="300dp"
+        android:ems="10"
+        android:hint="Enter Password"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear_pass">
-
-        <ImageView
-            android:id="@+id/pass_img2"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            app:srcCompat="@drawable/password" />
-
-        <TextView
-            android:id="@+id/re_pass"
-            android:layout_width="255dp"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:hint="Confirm Password"
-            android:inputType="textPassword"
-            android:padding="10dp"
-            android:textColorHint="@color/text" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.45" />
 
     <Button
         android:id="@+id/signup_button"
