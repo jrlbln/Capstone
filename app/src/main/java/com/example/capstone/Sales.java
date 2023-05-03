@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class Home extends AppCompatActivity {
+public class Sales extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -19,7 +19,7 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home);
+        setContentView(R.layout.sales);
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -36,23 +36,23 @@ public class Home extends AppCompatActivity {
                 int id = menuItem.getItemId();
                 if (id == R.id.home) {
                     // Start the HomeActivity
-                    Intent intent = new Intent(Home.this, Home.class);
+                    Intent intent = new Intent(Sales.this, Home.class);
                     startActivity(intent);
                 } else if (id == R.id.inventory) {
                     // Start the InventoryActivity
-                    Intent intent = new Intent(Home.this, Inventory.class);
+                    Intent intent = new Intent(Sales.this, Inventory.class);
                     startActivity(intent);
                 } else if (id == R.id.sales) {
                     // Start the SalesChartActivity
-                    Intent intent = new Intent(Home.this, Sales.class);
+                    Intent intent = new Intent(Sales.this, Sales.class);
                     startActivity(intent);
                 } else if (id == R.id.purchase) {
                     // Start the PurchaseListActivity
-                    Intent intent = new Intent(Home.this, Purchase.class);
+                    Intent intent = new Intent(Sales.this, Purchase.class);
                     startActivity(intent);
                 } else if (id == R.id.logout) {
                     // Start the PurchaseListActivity
-                    Intent intent = new Intent(Home.this, SignIn.class);
+                    Intent intent = new Intent(Sales.this, SignIn.class);
                     startActivity(intent);
                 }
 
