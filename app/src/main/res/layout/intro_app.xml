@@ -30,8 +30,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="10dp"
+            android:fontFamily="@font/poppinsreg"
             android:text="BudgetEase"
-            android:textSize="40sp"
+            android:textSize="36sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.437"
             app:layout_constraintStart_toStartOf="parent"
@@ -39,13 +40,14 @@
     </LinearLayout>
 
     <TextView
-        android:layout_width="240dp"
-        android:layout_height="100dp"
+        android:layout_width="249dp"
+        android:layout_height="118dp"
         android:layout_marginTop="100dp"
+        android:fontFamily="@font/poppinsreg"
         android:gravity="center"
         android:justificationMode="inter_word"
         android:text="Manage and Track your Sales more efficiently with BudgetEase"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
