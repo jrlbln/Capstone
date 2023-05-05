@@ -3,6 +3,8 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+
+        maven {url"https://jitpack.io"}
     }
 }
 dependencyResolutionManagement {
@@ -14,3 +16,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Capstone"
 include ':app'
+include ':MPChartLib'
+include ':MPChartExample'
