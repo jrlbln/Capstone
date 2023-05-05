@@ -18,6 +18,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.google.android.material.internal.ViewUtils;
 import com.google.android.material.navigation.NavigationView;
 
 public class Inventory extends AppCompatActivity {
@@ -92,9 +93,11 @@ public class Inventory extends AppCompatActivity {
         for (String text : headerText) {
             TextView textView = new TextView(this);
             textView.setText(text);
-            textView.setTextColor(ContextCompat.getColor(this, R.color.purple));
-            textView.setTextSize(20);
-            textView.setPadding(20, 20, 20, 20);
+
+            textView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple));
+            textView.setTextColor(ContextCompat.getColor(this, R.color.white));
+            textView.setTextSize(22);
+            textView.setPadding(55, 20, 20, 20);
             headerRow.addView(textView);
         }
         tableLayout.addView(headerRow);
@@ -105,9 +108,9 @@ public class Inventory extends AppCompatActivity {
             for (String text : row) {
                 TextView textView = new TextView(this);
                 textView.setText(text);
-                textView.setTextColor(ContextCompat.getColor(this, R.color.light_purple));
-                textView.setTextSize(20);
-                textView.setPadding(20, 20, 20, 20);
+                textView.setTextColor(ContextCompat.getColor(this, R.color.purple));
+                textView.setTextSize(21);
+                textView.setPadding(55, 20, 20, 20);
                 dataRow.addView(textView);
             }
             tableLayout.addView(dataRow);
@@ -137,9 +140,9 @@ public class Inventory extends AppCompatActivity {
         for (String text : rowData) {
             TextView textView = new TextView(this);
             textView.setText(text);
-            textView.setTextColor(ContextCompat.getColor(this, R.color.light_purple));
-            textView.setTextSize(20);
-            textView.setPadding(20, 20, 20, 20);
+            textView.setTextColor(ContextCompat.getColor(this, R.color.purple));
+            textView.setTextSize(21);
+            textView.setPadding(55, 20, 20, 20);
             dataRow.addView(textView);
         }
         tableLayout.addView(dataRow);

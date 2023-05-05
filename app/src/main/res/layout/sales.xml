@@ -20,9 +20,9 @@
 
             <Button
                 android:id="@+id/btn_menu"
-                android:layout_width="45dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_menu" />
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/burgermenu" />
 
         </androidx.appcompat.widget.Toolbar>
 
