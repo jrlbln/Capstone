@@ -4,6 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="text">#626262</color>
     <color name="signUp">#7471fc</color>
+    <color name="purple">#7471fc</color>
+    <color name="light_purple">#cdc3f1</color>
     <color name="unselected">#262626</color>
     <color name="selected">#7471fc</color>
 </resources>
