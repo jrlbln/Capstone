@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppNavigationView" parent="@style/Widget.Design.NavigationView">
+        <item name="android:textSize">50sp</item> <!-- change text size -->
+        <item name="itemIconSize">80dp</item> <!-- change icon size -->
+        <item name="itemTextColor">@color/signUp</item>
+        <!-- add more customization here -->
+    </style>
+</resources>
