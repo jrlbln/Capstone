@@ -23,7 +23,9 @@
         <activity android:name=".SignUp" />
         <activity android:name=".SignIn" />
         <activity android:name=".Purchase" />
-        <activity android:name=".Sales" />
+        <activity 
+            android:name=".Sales"
+            android:screenOrientation="landscape"/>
         <activity android:name=".Inventory" />
         <activity android:name=".Home" />
 
