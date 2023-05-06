@@ -9,25 +9,42 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/poppinsreg"
         android:text="Inventory"
-        android:textSize="20sp"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:textColor="#0C0C0C"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="352dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.638" />
 
     <TextView
-        android:layout_width="240dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="80dp"
+        android:id="@+id/textView8"
+        android:layout_width="223dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppinsreg"
         android:gravity="center"
         android:justificationMode="inter_word"
         android:text="Restock and update your list of items with ease"
-        android:textSize="20sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="311dp"
+        android:layout_height="361dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.145"
+        app:srcCompat="@drawable/inventory" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
