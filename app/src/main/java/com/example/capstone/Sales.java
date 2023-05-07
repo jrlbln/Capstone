@@ -7,12 +7,22 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Sales extends AppCompatActivity {
 
@@ -26,6 +36,7 @@ public class Sales extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
+        LineChart lineChart = findViewById(R.id.line_chart);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -75,6 +86,41 @@ public class Sales extends AppCompatActivity {
                 return true;
             }
         });
+
+        List<Entry> entries = new ArrayList<>();
+        entries.add(new Entry(0, 1));
+        entries.add(new Entry(1, 4));
+        entries.add(new Entry(2, 2));
+        entries.add(new Entry(3, 5));
+        entries.add(new Entry(4, 3));
+        entries.add(new Entry(5, 6));
+        entries.add(new Entry(6, 4));
+
+        // Create a LineDataSet object to represent the data set on the chart
+        LineDataSet lineDataSet = new LineDataSet(entries, "My Data Set");
+
+        // Set the color of the line and the text
+        lineDataSet.setColor(Color.BLUE);
+        lineDataSet.setValueTextColor(Color.RED);
+
+        // Create a LineData object to hold the data sets
+        LineData lineData = new LineData(lineDataSet);
+
+        // Set the LineData object on the chart
+        lineChart.setData(lineData);
+
+        // Customize the appearance of the X and Y axes
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        YAxis yAxisLeft = lineChart.getAxisLeft();
+        yAxisLeft.setAxisMinimum(0f);
+
+        YAxis yAxisRight = lineChart.getAxisRight();
+        yAxisRight.setEnabled(false);
+
+        // Invalidate the chart to update its appearance
+        lineChart.invalidate();
     }
 
     @Override
