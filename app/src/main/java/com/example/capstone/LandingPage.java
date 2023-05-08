@@ -3,6 +3,9 @@ package com.example.capstone;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageView;
 
@@ -13,11 +16,33 @@ import java.util.List;
 
 public class LandingPage extends AppCompatActivity {
 
+    private static final String PREFS_NAME = "MyPrefsFile";
+    private static final String FIRST_TIME_KEY = "isFirstTime";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.landing_page);
 
+        // Check if this is the first time the app is being opened
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        boolean isFirstTime = prefs.getBoolean(FIRST_TIME_KEY, true);
+
+        if (isFirstTime) {
+            // Set the boolean value in SharedPreferences to false
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(FIRST_TIME_KEY, false);
+            editor.apply();
+
+            // Show the landing page
+            setContentView(R.layout.landing_page);
+        } else {
+            // Navigate to the sign-in page
+            startActivity(new Intent(this, SignIn.class));
+            finish();
+        }
+
+        //pages
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new Page1Fragment());
         fragments.add(new Page2Fragment());
