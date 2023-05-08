@@ -46,7 +46,7 @@
         android:fontFamily="@font/poppinsreg"
         android:gravity="center"
         android:justificationMode="inter_word"
-        android:text="Manage and Track your Sales more efficiently with BudgetEase"
+        android:text="Manage and Track your Sales more efficiently with VarietEase"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"

@@ -21,12 +21,16 @@ import android.widget.TextView;
 import com.google.android.material.internal.ViewUtils;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Inventory extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private TableLayout tableLayout;
-    private String[][] data = {{"John", "Doe", "25"}, {"Jane", "Doe", "28"}};
+    private String[] headers = {"Name", "Age", "Gender"};
+    private List<String[]> data = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,18 @@ public class Inventory extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         tableLayout = findViewById(R.id.tableLayout);
+
+        // Add some sample data
+        data.add(new String[]{"John Doe", "25", "Male"});
+        data.add(new String[]{"Jane Smith", "30", "Female"});
+        data.add(new String[]{"Bob Johnson", "40", "Male"});
+        data.add(new String[]{"Alice Brown", "22", "Female"});
+        data.add(new String[]{"Tom Jones", "50", "Male"});
+        data.add(new String[]{"Sue Davis", "28", "Female"});
+        data.add(new String[]{"Sam Wilson", "35", "Male"});
+        data.add(new String[]{"Eva Lee", "29", "Female"});
+        data.add(new String[]{"Mike Smith", "45", "Male"});
+        data.add(new String[]{"Lisa Chen", "27", "Female"});
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -87,39 +103,35 @@ public class Inventory extends AppCompatActivity {
         });
 
         //table
-        // Create header row
+        // Add the table header
         TableRow headerRow = new TableRow(this);
-        String[] headerText = {"First Name", "Last Name", "Age"};
-        for (String text : headerText) {
+        for (String header : headers) {
             TextView textView = new TextView(this);
-            textView.setText(text);
-
-            textView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple));
-            textView.setTextColor(ContextCompat.getColor(this, R.color.white));
-            textView.setTextSize(22);
-            textView.setPadding(55, 20, 20, 20);
+            textView.setText(header);
+            textView.setTextSize(20);
+            textView.setPadding(10, 10, 10, 10);
+            textView.setBackgroundColor(getResources().getColor(R.color.white));
+            textView.setTextColor(getResources().getColor(R.color.purple));
             headerRow.addView(textView);
         }
         tableLayout.addView(headerRow);
 
-        // Add initial data rows
-        for (String[] row : data) {
+        // Add the table data
+        int numRowsToShow = 5;
+        for (int i = 0; i < Math.min(data.size(), numRowsToShow); i++) {
             TableRow dataRow = new TableRow(this);
-            for (String text : row) {
+            String[] row = data.get(i);
+            for (String rowData : row) {
                 TextView textView = new TextView(this);
-                textView.setText(text);
-                textView.setTextColor(ContextCompat.getColor(this, R.color.purple));
-                textView.setTextSize(21);
-                textView.setPadding(55, 20, 20, 20);
+                textView.setText(rowData);
+                textView.setTextSize(16);
+                textView.setBackgroundColor(getResources().getColor(R.color.white));
+                textView.setTextColor(getResources().getColor(R.color.light_purple));
+                textView.setPadding(10, 10, 10, 10);
                 dataRow.addView(textView);
             }
             tableLayout.addView(dataRow);
         }
-
-        // Add new data dynamically
-        addDataToTable("Alice", "Smith", "30");
-        addDataToTable("Bob", "Johnson", "35");
-        addDataToTable("Joerel", "Belen", "21");
 
     }
 
@@ -131,20 +143,5 @@ public class Inventory extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
-    }
-
-    //table
-    private void addDataToTable(String firstName, String lastName, String age) {
-        TableRow dataRow = new TableRow(this);
-        String[] rowData = {firstName, lastName, age};
-        for (String text : rowData) {
-            TextView textView = new TextView(this);
-            textView.setText(text);
-            textView.setTextColor(ContextCompat.getColor(this, R.color.purple));
-            textView.setTextSize(21);
-            textView.setPadding(55, 20, 20, 20);
-            dataRow.addView(textView);
-        }
-        tableLayout.addView(dataRow);
     }
 }
