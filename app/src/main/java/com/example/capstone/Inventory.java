@@ -1,5 +1,6 @@
 package com.example.capstone;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,15 +12,24 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.internal.ViewUtils;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +39,10 @@ public class Inventory extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private TableLayout tableLayout;
-    private String[] headers = {"Name", "Age", "Gender"};
-    private List<String[]> data = new ArrayList<>();
+    private String[] headers = {"Item", "Stock Amount", "Price", "Edit"};
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private CollectionReference itemsRef = db.collection("items");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,18 +52,6 @@ public class Inventory extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         tableLayout = findViewById(R.id.tableLayout);
-
-        // Add some sample data
-        data.add(new String[]{"John Doe", "25", "Male"});
-        data.add(new String[]{"Jane Smith", "30", "Female"});
-        data.add(new String[]{"Bob Johnson", "40", "Male"});
-        data.add(new String[]{"Alice Brown", "22", "Female"});
-        data.add(new String[]{"Tom Jones", "50", "Male"});
-        data.add(new String[]{"Sue Davis", "28", "Female"});
-        data.add(new String[]{"Sam Wilson", "35", "Male"});
-        data.add(new String[]{"Eva Lee", "29", "Female"});
-        data.add(new String[]{"Mike Smith", "45", "Male"});
-        data.add(new String[]{"Lisa Chen", "27", "Female"});
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -102,6 +102,16 @@ public class Inventory extends AppCompatActivity {
             }
         });
 
+        // Add Item button
+        Button addItemButton = findViewById(R.id.add_item_button);
+        addItemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Inventory.this, AddItem.class);
+                startActivity(intent);
+            }
+        });
+
         //table
         // Add the table header
         TableRow headerRow = new TableRow(this);
@@ -116,28 +126,70 @@ public class Inventory extends AppCompatActivity {
         }
         tableLayout.addView(headerRow);
 
-        // Add the table data
-        int numRowsToShow = 5;
-        for (int i = 0; i < Math.min(data.size(), numRowsToShow); i++) {
-            TableRow dataRow = new TableRow(this);
-            String[] row = data.get(i);
-            for (String rowData : row) {
-                TextView textView = new TextView(this);
-                textView.setText(rowData);
-                textView.setTextSize(16);
-                textView.setBackgroundColor(getResources().getColor(R.color.white));
-                textView.setTextColor(getResources().getColor(R.color.light_purple));
-                textView.setPadding(10, 10, 10, 10);
-                dataRow.addView(textView);
-            }
-            tableLayout.addView(dataRow);
+        // Load data from Firebase
+        itemsRef.whereEqualTo("userId", mAuth.getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String itemName = document.getString("name");
+                                String quantity = document.getString("quantity");
+                                String price = document.getString("price");
+                                String documentId = document.getId();
+
+                                // Add data to table
+                                TableRow dataRow = new TableRow(Inventory.this);
+
+                                TextView nameView = new TextView(Inventory.this);
+                                nameView.setText(itemName);
+                                nameView.setTextSize(16);
+                                nameView.setBackgroundColor(getResources().getColor(R.color.white));
+                                nameView.setTextColor(getResources().getColor(R.color.light_purple));
+                                nameView.setPadding(10, 10, 10, 10);
+                                dataRow.addView(nameView);
+
+                                TextView quantityView = new TextView(Inventory.this);
+                                quantityView.setText(quantity);
+                                quantityView.setTextSize(16);
+                                quantityView.setBackgroundColor(getResources().getColor(R.color.white));
+                                quantityView.setTextColor(getResources().getColor(R.color.light_purple));
+                                quantityView.setPadding(10, 10, 10, 10);
+                                dataRow.addView(quantityView);
+
+                                TextView priceView = new TextView(Inventory.this);
+                                priceView.setText(price);
+                                priceView.setTextSize(16);
+                                priceView.setBackgroundColor(getResources().getColor(R.color.white));
+                                priceView.setTextColor(getResources().getColor(R.color.light_purple));
+                                priceView.setPadding(10, 10, 10, 10);
+                                dataRow.addView(priceView);
+
+                                ImageButton editButton = new ImageButton(Inventory.this);
+                                editButton.setImageResource(R.drawable.ic_edit);
+                                editButton.setBackgroundColor(getResources().getColor(R.color.white));
+                                editButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent intent = new Intent(Inventory.this, EditItem.class);
+                                        intent.putExtra("DOCUMENT_ID", documentId);
+                                        startActivity(intent);
+                                    }
+                                });
+                                dataRow.addView(editButton);
+
+                                tableLayout.addView(dataRow);
+                            }
+                        } else {
+                            Log.d("Inventory", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
         }
-
-    }
-
     //Nav Bar
     @Override
-    public void onBackPressed() {
+    public void onBackPressed () {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
