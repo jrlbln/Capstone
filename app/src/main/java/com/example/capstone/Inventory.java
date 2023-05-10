@@ -56,7 +56,46 @@ public class Inventory extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
         tableLayout = findViewById(R.id.tableLayout);
 
-        // Set up your navigation drawer code here
+        //nav button
+        Button btnMenu = findViewById(R.id.btn_menu);
+        btnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                // Handle menu item clicks here
+                int id = menuItem.getItemId();
+                if (id == R.id.home) {
+                    // Start the HomeActivity
+                    Intent intent = new Intent(Inventory.this, Home.class);
+                    startActivity(intent);
+                } else if (id == R.id.inventory) {
+                    // Start the InventoryActivity
+                    Intent intent = new Intent(Inventory.this, Inventory.class);
+                    startActivity(intent);
+                } else if (id == R.id.sales) {
+                    // Start the SalesChartActivity
+                    Intent intent = new Intent(Inventory.this, Sales.class);
+                    startActivity(intent);
+                } else if (id == R.id.purchase) {
+                    // Start the PurchaseListActivity
+                    Intent intent = new Intent(Inventory.this, Purchase.class);
+                    startActivity(intent);
+                } else if (id == R.id.logout) {
+                    // Start the PurchaseListActivity
+                    Intent intent = new Intent(Inventory.this, SignIn.class);
+                    startActivity(intent);
+                }
+
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
 
         // Add Item button
         Button addItemButton = findViewById(R.id.add_item_button);

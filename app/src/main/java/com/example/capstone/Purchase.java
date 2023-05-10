@@ -11,21 +11,32 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Objects;
 
 public class Purchase extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private TableLayout tableLayout;
-    private String[][] data = {{"John", "Doe", "25"}, {"Jane", "Doe", "28"}};
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private CollectionReference itemsRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,9 +97,10 @@ public class Purchase extends AppCompatActivity {
         });
 
         //table
+
         // Create header row
         TableRow headerRow = new TableRow(this);
-        String[] headerText = {"First Name", "Last Name", "Age"};
+        String[] headerText = {"Item Name", "Quantity", "Price"};
         for (String text : headerText) {
             TextView textView = new TextView(this);
             textView.setText(text);
@@ -100,24 +112,42 @@ public class Purchase extends AppCompatActivity {
         }
         tableLayout.addView(headerRow);
 
-        // Add initial data rows
-        for (String[] row : data) {
-            TableRow dataRow = new TableRow(this);
-            for (String text : row) {
-                TextView textView = new TextView(this);
-                textView.setText(text);
-                textView.setTextColor(ContextCompat.getColor(this, R.color.purple));
-                textView.setTextSize(21);
-                textView.setPadding(55, 20, 20, 20);
-                dataRow.addView(textView);
-            }
-            tableLayout.addView(dataRow);
-        }
+        // Read data from Firestore
+        mAuth = FirebaseAuth.getInstance();
+        String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+        itemsRef = db.collection("users").document(userId).collection("item");
 
-        // Add new data dynamically
-        addDataToTable("Alice", "Smith", "30");
-        addDataToTable("Bob", "Johnson", "35");
-        addDataToTable("Joerel", "Belen", "21");
+        itemsRef.get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (DocumentSnapshot document : task.getResult()) {
+                            String name = document.getString("name");
+                            String quantity = document.getString("quantity");
+                            String price = document.getString("price");
+                            int quantityInt = Integer.parseInt(quantity);
+
+                            if (quantityInt < 5) {
+                                TableRow row = new TableRow(this);
+                                TextView nameTextView = new TextView(this);
+                                TextView quantityTextView = new TextView(this);
+                                TextView priceTextView = new TextView(this);
+
+                                nameTextView.setText(name);
+                                quantityTextView.setText(quantity);
+                                priceTextView.setText(price);
+
+                                row.addView(nameTextView);
+                                row.addView(quantityTextView);
+                                row.addView(priceTextView);
+
+                                tableLayout.addView(row, new TableLayout.LayoutParams(
+                                        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            }
+                        }
+                    } else {
+                        Log.d("ViewItems", "Error getting items", task.getException());
+                    }
+                });
 
     }
 
@@ -131,18 +161,4 @@ public class Purchase extends AppCompatActivity {
         }
     }
 
-    //table
-    private void addDataToTable(String firstName, String lastName, String age) {
-        TableRow dataRow = new TableRow(this);
-        String[] rowData = {firstName, lastName, age};
-        for (String text : rowData) {
-            TextView textView = new TextView(this);
-            textView.setText(text);
-            textView.setTextColor(ContextCompat.getColor(this, R.color.purple));
-            textView.setTextSize(21);
-            textView.setPadding(55, 20, 20, 20);
-            dataRow.addView(textView);
-        }
-        tableLayout.addView(dataRow);
-    }
 }
