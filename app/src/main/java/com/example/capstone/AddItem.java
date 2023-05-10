@@ -41,26 +41,7 @@ public class AddItem extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-        itemsRef = db.collection("items").document(userId).collection("item");
-
-        // Check if "item" collection exists and create it if it doesn't
-        itemsRef.get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        if (task.getResult().size() == 0) {
-                            Map<String, Object> item = new HashMap<>();
-                            item.put("name", "");
-                            item.put("quantity", "");
-                            item.put("price", "");
-
-                            itemsRef.add(item)
-                                    .addOnSuccessListener(documentReference -> Log.d("AddItem", "Item collection created"))
-                                    .addOnFailureListener(e -> Log.d("AddItem", "Error creating item collection"));
-                        }
-                    } else {
-                        Log.d("AddItem", "Error getting item collection", task.getException());
-                    }
-                });
+        itemsRef = db.collection("users").document(userId).collection("item");
 
         nameEditText = findViewById(R.id.item_name);
         quantityEditText = findViewById(R.id.item_quantity);

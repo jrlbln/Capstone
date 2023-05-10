@@ -79,7 +79,7 @@ public class SignUp extends AppCompatActivity {
 
                                     // Create a new document in Firestore for this user
                                     String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-                                    mFirestore.collection("items").document(userId).set(new HashMap<>());
+                                    mFirestore.collection("users").document(userId).set(new HashMap<>());
 
                                     Intent intent = new Intent(SignUp.this, SignIn.class);
                                     startActivity(intent);

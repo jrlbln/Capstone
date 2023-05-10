@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
@@ -33,6 +34,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Inventory extends AppCompatActivity {
 
@@ -53,6 +55,7 @@ public class Inventory extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
         tableLayout = findViewById(R.id.tableLayout);
 
+        //nav drawer
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
@@ -113,18 +116,31 @@ public class Inventory extends AppCompatActivity {
         });
 
         //table
-        // Add the table header
+
+        //read Firestore
+        mAuth = FirebaseAuth.getInstance();
+        String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+        itemsRef = db.collection("users").document(userId).collection("item");
+
+        // Set up "Edit Item" header
         TableRow headerRow = new TableRow(this);
-        for (String header : headers) {
-            TextView textView = new TextView(this);
-            textView.setText(header);
-            textView.setTextSize(20);
-            textView.setPadding(10, 10, 10, 10);
-            textView.setBackgroundColor(getResources().getColor(R.color.white));
-            textView.setTextColor(getResources().getColor(R.color.purple));
-            headerRow.addView(textView);
-        }
-        tableLayout.addView(headerRow);
+        TextView nameHeader = new TextView(this);
+        TextView quantityHeader = new TextView(this);
+        TextView priceHeader = new TextView(this);
+        TextView editHeader = new TextView(this);
+
+        nameHeader.setText("Name");
+        quantityHeader.setText("Quantity");
+        priceHeader.setText("Price");
+        editHeader.setText("Edit Item");
+
+        headerRow.addView(nameHeader);
+        headerRow.addView(quantityHeader);
+        headerRow.addView(priceHeader);
+        headerRow.addView(editHeader);
+
+        tableLayout.addView(headerRow, new TableLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         // Load data from Firebase
         itemsRef.whereEqualTo("userId", mAuth.getCurrentUser().getUid())
