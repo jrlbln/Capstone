@@ -3,6 +3,7 @@ package com.example.capstone;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +16,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class SignUp extends AppCompatActivity {
 
@@ -23,6 +29,7 @@ public class SignUp extends AppCompatActivity {
     private EditText mConfirmPasswordField;
 
     private FirebaseAuth mAuth;
+    private FirebaseFirestore mFirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +37,7 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.sign_up);
 
         mAuth = FirebaseAuth.getInstance();
+        mFirestore = FirebaseFirestore.getInstance();
 
         Button signupButton = findViewById(R.id.signup_button);
         mEmailField = findViewById(R.id.email);
@@ -68,14 +76,20 @@ public class SignUp extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(SignUp.this, "Sign up successful!", Toast.LENGTH_SHORT).show();
+
+                                    // Create a new document in Firestore for this user
+                                    String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+                                    mFirestore.collection("users").document(userId).set(new HashMap<>());
+
                                     Intent intent = new Intent(SignUp.this, SignIn.class);
                                     startActivity(intent);
                                     finish();
                                 } else {
                                     Toast.makeText(SignUp.this, "Sign up failed. Please try again later.", Toast.LENGTH_SHORT).show();
+                                    Log.e("SignUp", "createUserWithEmailAndPassword failed: " + task.getException().getMessage());
                                 }
                             }
-                        });
+                });
             }
         });
 
