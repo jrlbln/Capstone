@@ -126,15 +126,30 @@ public class Purchase extends AppCompatActivity {
                             String price = document.getString("price");
                             int quantityInt = Integer.parseInt(quantity);
 
-                            if (quantityInt < 5) {
-                                TableRow row = new TableRow(this);
-                                TextView nameTextView = new TextView(this);
-                                TextView quantityTextView = new TextView(this);
-                                TextView priceTextView = new TextView(this);
+                            TableRow row = new TableRow(this);
+                            row.setPadding(0, 4, 0, 4); // Set row padding
+                            row.setBackgroundColor(Color.LTGRAY); // Set row background color
 
+                            if (quantityInt < 5) {
+                                row = new TableRow(this);
+
+                                TextView nameTextView = new TextView(this);
                                 nameTextView.setText(name);
+                                nameTextView.setTextColor(ContextCompat.getColor(this, R.color.black));
+                                nameTextView.setTextSize(18);
+                                nameTextView.setPadding(8, 8, 8, 8);
+
+                                TextView quantityTextView = new TextView(this);
                                 quantityTextView.setText(quantity);
+                                quantityTextView.setTextColor(ContextCompat.getColor(this, R.color.black));
+                                quantityTextView.setTextSize(18);
+                                quantityTextView.setPadding(8, 8, 8, 8);
+
+                                TextView priceTextView = new TextView(this);
                                 priceTextView.setText(price);
+                                priceTextView.setTextColor(ContextCompat.getColor(this, R.color.black));
+                                priceTextView.setTextSize(18);
+                                priceTextView.setPadding(8, 8, 8, 8);
 
                                 row.addView(nameTextView);
                                 row.addView(quantityTextView);
