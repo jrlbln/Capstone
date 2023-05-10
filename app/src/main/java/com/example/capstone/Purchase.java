@@ -105,9 +105,10 @@ public class Purchase extends AppCompatActivity {
             TextView textView = new TextView(this);
             textView.setText(text);
             textView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple));
+
             textView.setTextColor(ContextCompat.getColor(this, R.color.white));
             textView.setTextSize(23);
-            textView.setPadding(55, 20, 20, 20);
+            textView.setPadding(55, 18, 18, 18);
             headerRow.addView(textView);
         }
         tableLayout.addView(headerRow);

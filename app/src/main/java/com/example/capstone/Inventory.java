@@ -115,33 +115,34 @@ public class Inventory extends AppCompatActivity {
         TextView editHeader = new TextView(this);
 
         nameHeader.setText("Item Name");
-        nameHeader.setTextColor(ContextCompat.getColor(this, R.color.black));
-        nameHeader.setTextSize(18);
+        nameHeader.setTextColor(ContextCompat.getColor(this, R.color.white));
+        nameHeader.setTextSize(21);
         nameHeader.setBackgroundColor(ContextCompat.getColor(this, R.color.purple));
-        nameHeader.setPadding(8, 8, 8, 8);
+        nameHeader.setPadding(70, 18, 18, 18);
 
         quantityHeader.setText("Quantity");
-        quantityHeader.setTextColor(ContextCompat.getColor(this, R.color.black));
-        quantityHeader.setTextSize(18);
+        quantityHeader.setTextColor(ContextCompat.getColor(this, R.color.white));
+        quantityHeader.setTextSize(21);
         quantityHeader.setBackgroundColor(ContextCompat.getColor(this, R.color.purple));
-        quantityHeader.setPadding(8, 8, 8, 8);
+        quantityHeader.setPadding(70, 18, 18, 18);
 
         priceHeader.setText("Price");
-        priceHeader.setTextColor(ContextCompat.getColor(this, R.color.black));
-        priceHeader.setTextSize(18);
+        priceHeader.setTextColor(ContextCompat.getColor(this, R.color.white));
+        priceHeader.setTextSize(21);
         priceHeader.setBackgroundColor(ContextCompat.getColor(this, R.color.purple));
-        priceHeader.setPadding(8, 8, 8, 8);
+        priceHeader.setPadding(70, 18, 18, 18);
 
         editHeader.setText("Edit");
-        editHeader.setTextColor(ContextCompat.getColor(this, R.color.black));
-        editHeader.setTextSize(18);
+        editHeader.setTextColor(ContextCompat.getColor(this, R.color.white));
+        editHeader.setTextSize(21);
         editHeader.setBackgroundColor(ContextCompat.getColor(this, R.color.purple));
-        editHeader.setPadding(8, 8, 8, 8);
+        editHeader.setPadding(70, 18, 18, 18);
+
 
         headerRow.addView(nameHeader);
         headerRow.addView(quantityHeader);
         headerRow.addView(priceHeader);
-        headerRow.addView(editHeader);
+
 
         tableLayout.addView(headerRow, new TableLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -163,30 +164,30 @@ public class Inventory extends AppCompatActivity {
 
                             TableRow row = new TableRow(this);
                             row.setPadding(0, 4, 0, 4); // Set row padding
-                            row.setBackgroundColor(Color.LTGRAY); // Set row background color
+                            //row.setBackgroundColor(Color.LTGRAY); // Set row background color
 
                             TextView nameTextView = new TextView(this);
                             nameTextView.setText(name);
                             nameTextView.setTextColor(Color.BLACK);
-                            nameTextView.setTextSize(16);
-                            nameTextView.setPadding(8, 8, 8, 8);
+                            nameTextView.setTextSize(19);
+                            nameTextView.setPadding(70, 18, 18, 18);
 
                             TextView quantityTextView = new TextView(this);
                             quantityTextView.setText(quantity);
                             quantityTextView.setTextColor(Color.BLACK);
-                            quantityTextView.setTextSize(16);
-                            quantityTextView.setPadding(8, 8, 8, 8);
+                            quantityTextView.setTextSize(19);
+                            quantityTextView.setPadding(70, 18, 18, 18);
 
                             TextView priceTextView = new TextView(this);
                             priceTextView.setText(price);
                             priceTextView.setTextColor(Color.BLACK);
-                            priceTextView.setTextSize(16);
-                            priceTextView.setPadding(8, 8, 8, 8);
+                            priceTextView.setTextSize(19);
+                            priceTextView.setPadding(70, 18, 18, 18);
 
                             ImageButton editButton = new ImageButton(this);
-                            editButton.setImageResource(R.drawable.ic_edit);
+                            editButton.setImageResource(R.drawable.edit);
                             editButton.setBackgroundColor(Color.TRANSPARENT);
-                            editButton.setPadding(8, 8, 8, 8);
+                            editButton.setPadding(70, 18, 18, 18);
 
                             row.addView(nameTextView);
                             row.addView(quantityTextView);
