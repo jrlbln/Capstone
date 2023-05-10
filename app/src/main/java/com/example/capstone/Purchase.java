@@ -137,20 +137,20 @@ public class Purchase extends AppCompatActivity {
                                 TextView nameTextView = new TextView(this);
                                 nameTextView.setText(name);
                                 nameTextView.setTextColor(ContextCompat.getColor(this, R.color.black));
-                                nameTextView.setTextSize(18);
-                                nameTextView.setPadding(8, 8, 8, 8);
+                                nameTextView.setTextSize(19);
+                                nameTextView.setPadding(120, 8, 8, 8);
 
                                 TextView quantityTextView = new TextView(this);
                                 quantityTextView.setText(quantity);
                                 quantityTextView.setTextColor(ContextCompat.getColor(this, R.color.black));
-                                quantityTextView.setTextSize(18);
-                                quantityTextView.setPadding(8, 8, 8, 8);
+                                quantityTextView.setTextSize(19);
+                                quantityTextView.setPadding(150, 8, 8, 8);
 
                                 TextView priceTextView = new TextView(this);
                                 priceTextView.setText(price);
                                 priceTextView.setTextColor(ContextCompat.getColor(this, R.color.black));
-                                priceTextView.setTextSize(18);
-                                priceTextView.setPadding(8, 8, 8, 8);
+                                priceTextView.setTextSize(19);
+                                priceTextView.setPadding(120, 8, 8, 8);
 
                                 row.addView(nameTextView);
                                 row.addView(quantityTextView);

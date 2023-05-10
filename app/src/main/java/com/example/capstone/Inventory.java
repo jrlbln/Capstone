@@ -170,24 +170,24 @@ public class Inventory extends AppCompatActivity {
                             nameTextView.setText(name);
                             nameTextView.setTextColor(Color.BLACK);
                             nameTextView.setTextSize(19);
-                            nameTextView.setPadding(70, 18, 18, 18);
+                            nameTextView.setPadding(140, 18, 18, 18);
 
                             TextView quantityTextView = new TextView(this);
                             quantityTextView.setText(quantity);
                             quantityTextView.setTextColor(Color.BLACK);
                             quantityTextView.setTextSize(19);
-                            quantityTextView.setPadding(70, 18, 18, 18);
+                            quantityTextView.setPadding(150, 18, 18, 18);
 
                             TextView priceTextView = new TextView(this);
                             priceTextView.setText(price);
                             priceTextView.setTextColor(Color.BLACK);
                             priceTextView.setTextSize(19);
-                            priceTextView.setPadding(70, 18, 18, 18);
+                            priceTextView.setPadding(130, 18, 18, 18);
 
                             ImageButton editButton = new ImageButton(this);
                             editButton.setImageResource(R.drawable.edit);
                             editButton.setBackgroundColor(Color.TRANSPARENT);
-                            editButton.setPadding(70, 18, 18, 18);
+                            editButton.setPadding(50, 18, 18, 18);
 
                             row.addView(nameTextView);
                             row.addView(quantityTextView);
