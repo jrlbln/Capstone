@@ -22,7 +22,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/logo" />
+            app:srcCompat="@drawable/v" />
 
         <TextView
             android:id="@+id/textView"
@@ -30,9 +30,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="10dp"
+            android:textColor="#0C0C0C"
             android:text="VarietEase"
             android:textSize="40sp"
-            android:fontFamily="@font/poppinsreg"
+            android:fontFamily="@font/poppinsitalic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.437"
             app:layout_constraintStart_toStartOf="parent"
