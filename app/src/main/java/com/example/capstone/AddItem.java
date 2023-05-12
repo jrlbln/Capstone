@@ -50,13 +50,17 @@ public class AddItem extends AppCompatActivity {
 
         saveButton.setOnClickListener(view -> {
             String name = nameEditText.getText().toString().trim();
-            String quantity = quantityEditText.getText().toString().trim();
-            String price = priceEditText.getText().toString().trim();
+            String quantityStr = quantityEditText.getText().toString().trim();
+            String priceStr = priceEditText.getText().toString().trim();
 
-            if (TextUtils.isEmpty(name) || TextUtils.isEmpty(quantity) || TextUtils.isEmpty(price)) {
+            if (TextUtils.isEmpty(name) || TextUtils.isEmpty(quantityStr) || TextUtils.isEmpty(priceStr)) {
                 Toast.makeText(AddItem.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+            // Convert the quantity and price strings to doubles
+            double quantity = Double.parseDouble(quantityStr);
+            double price = Double.parseDouble(priceStr);
 
             // Create a new item document with auto-generated ID
             Map<String, Object> item = new HashMap<>();

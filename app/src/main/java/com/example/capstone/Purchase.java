@@ -86,9 +86,12 @@ public class Purchase extends AppCompatActivity {
                     Intent intent = new Intent(Purchase.this, Purchase.class);
                     startActivity(intent);
                 } else if (id == R.id.logout) {
-                    // Start the PurchaseListActivity
+                    // Start the SignInActivity
+                    FirebaseAuth.getInstance().signOut();
                     Intent intent = new Intent(Purchase.this, SignIn.class);
+                    intent.putExtra("logout", true);
                     startActivity(intent);
+                    finish();
                 }
 
                 drawerLayout.closeDrawer(GravityCompat.START);

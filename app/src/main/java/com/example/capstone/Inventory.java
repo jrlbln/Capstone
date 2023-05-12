@@ -142,6 +142,7 @@ public class Inventory extends AppCompatActivity {
         headerRow.addView(nameHeader);
         headerRow.addView(quantityHeader);
         headerRow.addView(priceHeader);
+        headerRow.addView(editHeader);
 
 
         tableLayout.addView(headerRow, new TableLayout.LayoutParams(
@@ -158,8 +159,8 @@ public class Inventory extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         for (DocumentSnapshot document : task.getResult()) {
                             String name = document.getString("name");
-                            String quantity = document.getString("quantity");
-                            String price = document.getString("price");
+                            double quantity = document.getDouble("quantity");
+                            double price = document.getDouble("price");
                             String documentId = document.getId();
 
                             TableRow row = new TableRow(this);
@@ -173,13 +174,13 @@ public class Inventory extends AppCompatActivity {
                             nameTextView.setPadding(140, 18, 18, 18);
 
                             TextView quantityTextView = new TextView(this);
-                            quantityTextView.setText(quantity);
+                            quantityTextView.setText(String.valueOf(quantity));
                             quantityTextView.setTextColor(Color.BLACK);
                             quantityTextView.setTextSize(19);
                             quantityTextView.setPadding(150, 18, 18, 18);
 
                             TextView priceTextView = new TextView(this);
-                            priceTextView.setText(price);
+                            priceTextView.setText(String.valueOf(price));
                             priceTextView.setTextColor(Color.BLACK);
                             priceTextView.setTextSize(19);
                             priceTextView.setPadding(130, 18, 18, 18);
