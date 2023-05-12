@@ -49,13 +49,14 @@ public class Sales extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private LineChart lineChart;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private final List<SalesData> salesDataList = new ArrayList<>();
     private LineDataSet lineDataSet;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("Sales", "onCreate() called");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sales);
 
@@ -208,6 +209,7 @@ public class Sales extends AppCompatActivity {
     }
 
     private void updateChart() {
+        Log.d("Sales", "Updating chart...");
         List<Entry> entries = new ArrayList<>();
 
         for (SalesData data : salesDataList) {
@@ -287,6 +289,7 @@ public class Sales extends AppCompatActivity {
     }
 
     private void loadSalesData() {
+        Log.d("Sales", "loadSalesData() called");
         String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         final DocumentReference userDocRef = db.collection("users").document(userId);
 
@@ -303,10 +306,12 @@ public class Sales extends AppCompatActivity {
 
                                 // Add the retrieved sales data to the salesDataList
                                 salesDataList.add(new SalesData(sales, timestamp));
+                                Log.d("Sales", "Sales: " + sales + ", Timestamp: " + timestamp);
                             }
 
                             // Update the chart with the loaded sales data
                             updateChart();
+
                         } else {
                             Log.d("Sales", "Error getting documents: ", task.getException());
                         }
