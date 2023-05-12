@@ -56,6 +56,15 @@ public class Inventory extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
         tableLayout = findViewById(R.id.tableLayout);
 
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+
         //nav button
         Button btnMenu = findViewById(R.id.btn_menu);
         btnMenu.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +151,7 @@ public class Inventory extends AppCompatActivity {
         headerRow.addView(nameHeader);
         headerRow.addView(quantityHeader);
         headerRow.addView(priceHeader);
+        headerRow.addView(editHeader);
 
 
         tableLayout.addView(headerRow, new TableLayout.LayoutParams(
@@ -158,8 +168,8 @@ public class Inventory extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         for (DocumentSnapshot document : task.getResult()) {
                             String name = document.getString("name");
-                            String quantity = document.getString("quantity");
-                            String price = document.getString("price");
+                            double quantity = document.getDouble("quantity");
+                            double price = document.getDouble("price");
                             String documentId = document.getId();
 
                             TableRow row = new TableRow(this);
@@ -173,13 +183,13 @@ public class Inventory extends AppCompatActivity {
                             nameTextView.setPadding(110, 18, 18, 18);
 
                             TextView quantityTextView = new TextView(this);
-                            quantityTextView.setText(quantity);
+                            quantityTextView.setText(String.valueOf(quantity));
                             quantityTextView.setTextColor(Color.BLACK);
                             quantityTextView.setTextSize(19);
                             quantityTextView.setPadding(110, 18, 18, 18);
 
                             TextView priceTextView = new TextView(this);
-                            priceTextView.setText(price);
+                            priceTextView.setText(String.valueOf(price));
                             priceTextView.setTextColor(Color.BLACK);
                             priceTextView.setTextSize(19);
                             priceTextView.setPadding(110, 18, 18, 18);

@@ -86,9 +86,12 @@ public class Purchase extends AppCompatActivity {
                     Intent intent = new Intent(Purchase.this, Purchase.class);
                     startActivity(intent);
                 } else if (id == R.id.logout) {
-                    // Start the PurchaseListActivity
+                    // Start the SignInActivity
+                    FirebaseAuth.getInstance().signOut();
                     Intent intent = new Intent(Purchase.this, SignIn.class);
+                    intent.putExtra("logout", true);
                     startActivity(intent);
+                    finish();
                 }
 
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -123,15 +126,15 @@ public class Purchase extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         for (DocumentSnapshot document : task.getResult()) {
                             String name = document.getString("name");
-                            String quantity = document.getString("quantity");
-                            String price = document.getString("price");
-                            int quantityInt = Integer.parseInt(quantity);
+                            Double quantity = document.getDouble("quantity");
+                            Double price = document.getDouble("price");
+
 
                             TableRow row = new TableRow(this);
                             row.setPadding(0, 4, 0, 4); // Set row padding
                             row.setBackgroundColor(Color.LTGRAY); // Set row background color
 
-                            if (quantityInt < 5) {
+                            if (quantity < 5.0) {
                                 row = new TableRow(this);
 
                                 TextView nameTextView = new TextView(this);
@@ -141,13 +144,13 @@ public class Purchase extends AppCompatActivity {
                                 nameTextView.setPadding(120, 8, 8, 8);
 
                                 TextView quantityTextView = new TextView(this);
-                                quantityTextView.setText(quantity);
+                                quantityTextView.setText(String.valueOf(quantity));
                                 quantityTextView.setTextColor(ContextCompat.getColor(this, R.color.black));
                                 quantityTextView.setTextSize(19);
                                 quantityTextView.setPadding(150, 8, 8, 8);
 
                                 TextView priceTextView = new TextView(this);
-                                priceTextView.setText(price);
+                                priceTextView.setText(String.valueOf(price));
                                 priceTextView.setTextColor(ContextCompat.getColor(this, R.color.black));
                                 priceTextView.setTextSize(19);
                                 priceTextView.setPadding(120, 8, 8, 8);

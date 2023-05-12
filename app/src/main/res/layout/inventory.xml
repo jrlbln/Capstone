@@ -6,10 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ScrollView
+        android:id="@+id/vertical_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -28,42 +34,62 @@
                 android:layout_height="30dp"
                 android:background="@drawable/burgermenu" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:text="INVENTORY"
+                android:textSize="30sp" />
+
         </androidx.appcompat.widget.Toolbar>
 
-        <TableLayout
-            android:id="@+id/tableLayout"
+
+        <HorizontalScrollView
+            android:id="@+id/horizontal_scroll"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="40dp"
-            android:stretchColumns="*"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            tools:layout_editor_absoluteX="-27dp">
 
-            <!-- Header row will be added dynamically -->
+            <TableLayout
+                android:id="@+id/tableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="321dp">
 
-        </TableLayout>
+                <!-- Header row will be added dynamically -->
+
+            </TableLayout>
+
+        </HorizontalScrollView>
 
         <Button
             android:id="@+id/add_item_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="Add Item"
+            android:layout_marginTop="30dp"
             android:width="200dp"
             android:background="@drawable/gradientbutton"
             android:clickable="true"
             android:fontFamily="@font/poppinsreg"
+            android:text="Add Item"
             android:textColor="#ffffff"
-            android:textSize="16dp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
-
+            app:layout_constraintTop_toBottomOf="@+id/horizontal_scroll"
+            android:focusable="true" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </ScrollView>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"

@@ -29,6 +29,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,9 +141,12 @@ public class Home extends AppCompatActivity {
                     Intent intent = new Intent(Home.this, Purchase.class);
                     startActivity(intent);
                 } else if (id == R.id.logout) {
-                    // Start the PurchaseListActivity
+                    // Start the SignInActivity
+                    FirebaseAuth.getInstance().signOut();
                     Intent intent = new Intent(Home.this, SignIn.class);
+                    intent.putExtra("logout", true);
                     startActivity(intent);
+                    finish();
                 }
 
                 drawerLayout.closeDrawer(GravityCompat.START);
