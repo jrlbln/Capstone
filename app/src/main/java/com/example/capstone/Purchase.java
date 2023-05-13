@@ -103,7 +103,7 @@ public class Purchase extends AppCompatActivity {
 
         // Create header row
         TableRow headerRow = new TableRow(this);
-        String[] headerText = {"Item Name", "Quantity", "Price"};
+        String[] headerText = {"Item Name", "Quantity"};
         for (String text : headerText) {
             TextView textView = new TextView(this);
             textView.setText(text);
@@ -127,14 +127,13 @@ public class Purchase extends AppCompatActivity {
                         for (DocumentSnapshot document : task.getResult()) {
                             String name = document.getString("name");
                             Double quantity = document.getDouble("quantity");
-                            Double price = document.getDouble("price");
 
 
                             TableRow row = new TableRow(this);
                             row.setPadding(0, 4, 0, 4); // Set row padding
                             row.setBackgroundColor(Color.LTGRAY); // Set row background color
 
-                            if (quantity < 5.0) {
+                            if (quantity <= 5.0) {
                                 row = new TableRow(this);
 
                                 TextView nameTextView = new TextView(this);
@@ -149,15 +148,8 @@ public class Purchase extends AppCompatActivity {
                                 quantityTextView.setTextSize(19);
                                 quantityTextView.setPadding(150, 8, 8, 8);
 
-                                TextView priceTextView = new TextView(this);
-                                priceTextView.setText(String.valueOf(price));
-                                priceTextView.setTextColor(ContextCompat.getColor(this, R.color.black));
-                                priceTextView.setTextSize(19);
-                                priceTextView.setPadding(120, 8, 8, 8);
-
                                 row.addView(nameTextView);
                                 row.addView(quantityTextView);
-                                row.addView(priceTextView);
 
                                 tableLayout.addView(row, new TableLayout.LayoutParams(
                                         ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
