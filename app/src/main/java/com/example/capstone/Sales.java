@@ -114,7 +114,12 @@ public class Sales extends AppCompatActivity {
                     startActivity(intent);
                 } else if (id == R.id.logout) {
                     // Start the SignInActivity
-                    FirebaseAuth.getInstance().signOut();
+                    SignIn signInInstance = SignIn.getInstance();
+                    if (signInInstance != null) {
+                        signInInstance.logOut();
+                    } else {
+                        FirebaseAuth.getInstance().signOut();
+                    }
                     Intent intent = new Intent(Sales.this, SignIn.class);
                     intent.putExtra("logout", true);
                     startActivity(intent);

@@ -142,7 +142,12 @@ public class Home extends AppCompatActivity {
                     startActivity(intent);
                 } else if (id == R.id.logout) {
                     // Start the SignInActivity
-                    FirebaseAuth.getInstance().signOut();
+                    SignIn signInInstance = SignIn.getInstance();
+                    if (signInInstance != null) {
+                        signInInstance.logOut();
+                    } else {
+                        FirebaseAuth.getInstance().signOut();
+                    }
                     Intent intent = new Intent(Home.this, SignIn.class);
                     intent.putExtra("logout", true);
                     startActivity(intent);
@@ -153,8 +158,6 @@ public class Home extends AppCompatActivity {
                 return true;
             }
         });
-
-        //add new functions here
 
         // Add the table Inventory header
         TableRow headerRow1 = new TableRow(this);
@@ -282,7 +285,6 @@ public class Home extends AppCompatActivity {
         // Invalidate the chart to update its appearance
         lineChart.invalidate();
     }
-
 
     //exit drawer
     @Override

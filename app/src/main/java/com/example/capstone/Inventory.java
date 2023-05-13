@@ -96,9 +96,17 @@ public class Inventory extends AppCompatActivity {
                     Intent intent = new Intent(Inventory.this, Purchase.class);
                     startActivity(intent);
                 } else if (id == R.id.logout) {
-                    // Start the PurchaseListActivity
+                    // Start the SignInActivity
+                    SignIn signInInstance = SignIn.getInstance();
+                    if (signInInstance != null) {
+                        signInInstance.logOut();
+                    } else {
+                        FirebaseAuth.getInstance().signOut();
+                    }
                     Intent intent = new Intent(Inventory.this, SignIn.class);
+                    intent.putExtra("logout", true);
                     startActivity(intent);
+                    finish();
                 }
 
                 drawerLayout.closeDrawer(GravityCompat.START);

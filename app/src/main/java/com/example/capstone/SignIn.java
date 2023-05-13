@@ -31,6 +31,7 @@ public class SignIn extends AppCompatActivity {
     private static final String PREFS_NAME = "MyAppPrefs";
     private static final String STAY_SIGNED_IN = "StaySignedIn";
     private CheckBox staySignedInCheckBox;
+    private static SignIn signInInstance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,9 @@ public class SignIn extends AppCompatActivity {
         staySignedInCheckBox = findViewById(R.id.staySignedIn);
 
         Button loginButton = findViewById(R.id.login_button);
+
+        signInInstance = this;
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,5 +121,16 @@ public class SignIn extends AppCompatActivity {
         Intent intent = new Intent(SignIn.this, Home.class);
         startActivity(intent);
         finish();
+    }
+
+    public void logOut() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(STAY_SIGNED_IN, false);
+        editor.apply();
+        mAuth.signOut();
+    }
+
+    public static SignIn getInstance() {
+        return signInInstance;
     }
 }
