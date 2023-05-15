@@ -281,7 +281,7 @@ public class Sales extends AppCompatActivity {
         lineChart.invalidate(); // Refresh the chart
     }
 
-    public class SalesData {
+    public static class SalesData {
         private double sales;
         private long timestamp;
 

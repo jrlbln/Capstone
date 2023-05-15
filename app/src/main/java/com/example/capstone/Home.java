@@ -1,5 +1,6 @@
 package com.example.capstone;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -13,6 +14,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,16 +25,30 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Home extends AppCompatActivity {
 
@@ -48,6 +64,11 @@ public class Home extends AppCompatActivity {
     private List<String[]> salesData = new ArrayList<>();
     private List<String[]> purchaseData = new ArrayList<>();
 
+    private LineChart lineChart;
+    private final List<Sales.SalesData> salesDataList = new ArrayList<>();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +79,17 @@ public class Home extends AppCompatActivity {
         inventoryTableLayout = findViewById(R.id.inventory_table);
         salesTableLayout = findViewById(R.id.sales_list);
         purchaseTableLayout = findViewById(R.id.purchase_list);
-        LineChart lineChart = findViewById(R.id.line_chart);
+        lineChart = findViewById(R.id.line_chart);
+
+        // Additional initialization for sales calculation and chart
+        LineDataSet lineDataSet = new LineDataSet(new ArrayList<>(), "Sales");
+        LineData lineData = new LineData(lineDataSet);
+        lineChart.setData(lineData);
+
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setValueFormatter(new DateFormatter()); // Apply the DateFormatter to the X-axis
+
+        loadSalesData();
 
         // Add some sample data for inventory table
         inventoryData.add(new String[]{"iPhone", "10", "$1000"});
@@ -249,41 +280,7 @@ public class Home extends AppCompatActivity {
             purchaseTableLayout.addView(dataRow);
         }
 
-        //Line Chart
-        List<Entry> entries = new ArrayList<>();
-        entries.add(new Entry(0, 1));
-        entries.add(new Entry(1, 4));
-        entries.add(new Entry(2, 2));
-        entries.add(new Entry(3, 5));
-        entries.add(new Entry(4, 3));
-        entries.add(new Entry(5, 6));
-        entries.add(new Entry(6, 4));
 
-        // Create a LineDataSet object to represent the data set on the chart
-        LineDataSet lineDataSet = new LineDataSet(entries, "My Data Set");
-
-        // Set the color of the line and the text
-        lineDataSet.setColor(Color.BLUE);
-        lineDataSet.setValueTextColor(Color.RED);
-
-        // Create a LineData object to hold the data sets
-        LineData lineData = new LineData(lineDataSet);
-
-        // Set the LineData object on the chart
-        lineChart.setData(lineData);
-
-        // Customize the appearance of the X and Y axes
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        YAxis yAxisLeft = lineChart.getAxisLeft();
-        yAxisLeft.setAxisMinimum(0f);
-
-        YAxis yAxisRight = lineChart.getAxisRight();
-        yAxisRight.setEnabled(false);
-
-        // Invalidate the chart to update its appearance
-        lineChart.invalidate();
     }
 
     //exit drawer
@@ -293,6 +290,108 @@ public class Home extends AppCompatActivity {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    private void loadSalesData() {
+        String userId = mAuth.getCurrentUser().getUid();
+        CollectionReference salesDataRef = db.collection("users").document(userId).collection("sales_data");
+
+        salesDataRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                salesDataList.clear();
+                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                    double sales = document.getDouble("sales");
+                    long timestamp = document.getLong("timestamp");
+
+                    // Create a SalesData object with the retrieved data
+                    Sales.SalesData salesData = new Sales.SalesData(sales, timestamp);
+
+                    // Add the SalesData object to the salesDataList
+                    salesDataList.add(salesData);
+                }
+
+                // Update the LineChart with the new data
+                updateLineChart();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("Sales", "Error loading sales data from Firestore: ", e);
+            }
+        });
+    }
+
+    private void updateLineChart() {
+        List<Entry> chartEntries = new ArrayList<>();
+
+        // Sort the salesDataList by timestamp
+        Collections.sort(salesDataList, new Comparator<Sales.SalesData>() {
+            @Override
+            public int compare(Sales.SalesData s1, Sales.SalesData s2) {
+                return Long.compare(s1.getTimestamp(), s2.getTimestamp());
+            }
+        });
+
+        for (int i = 0; i < salesDataList.size(); i++) {
+            Sales.SalesData salesData = salesDataList.get(i);
+            float xAxisValue = i;
+            float yAxisValue = (float) salesData.getSales();
+            Entry chartEntry = new Entry(xAxisValue, yAxisValue);
+            chartEntries.add(chartEntry);
+        }
+
+        LineDataSet lineDataSet = new LineDataSet(chartEntries, "My Data Set");
+        lineDataSet.setColor(Color.BLUE);
+        lineDataSet.setValueTextColor(Color.RED);
+
+        LineData lineData = new LineData(lineDataSet);
+        lineChart.setData(lineData);
+
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        YAxis yAxisLeft = lineChart.getAxisLeft();
+        yAxisLeft.setAxisMinimum(0f);
+
+        YAxis yAxisRight = lineChart.getAxisRight();
+        yAxisRight.setEnabled(false);
+
+        lineChart.invalidate(); // Refresh the chart
+    }
+    public class SalesData {
+        private double sales;
+        private long timestamp;
+
+        public SalesData() {
+        }
+
+        public SalesData(double sales, long timestamp) {
+            this.sales = sales;
+            this.timestamp = timestamp;
+        }
+
+        public long getTimestamp() {
+            return timestamp;
+        }
+
+        public double getSales() {
+            return sales;
+        }
+    }
+
+    public class DateFormatter extends ValueFormatter implements IAxisValueFormatter {
+        private SimpleDateFormat formatter;
+
+        public DateFormatter() {
+            formatter = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy", Locale.getDefault());
+        }
+
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            long timestamp = (long) value;
+            return formatter.format(new Date(timestamp * 1000)); // Convert back to milliseconds
         }
     }
 
