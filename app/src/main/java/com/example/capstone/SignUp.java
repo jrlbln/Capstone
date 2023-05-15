@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -75,15 +76,13 @@ public class SignUp extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(SignUp.this, "Sign up successful!", Toast.LENGTH_SHORT).show();
+                                    // Send the email verification link
+                                    sendEmailVerification();
 
                                     // Create a new document in Firestore for this user
                                     String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
                                     mFirestore.collection("users").document(userId).set(new HashMap<>());
 
-                                    Intent intent = new Intent(SignUp.this, SignIn.class);
-                                    startActivity(intent);
-                                    finish();
                                 } else {
                                     Toast.makeText(SignUp.this, "Sign up failed. Please try again later.", Toast.LENGTH_SHORT).show();
                                     Log.e("SignUp", "createUserWithEmailAndPassword failed: " + task.getException().getMessage());
@@ -92,6 +91,27 @@ public class SignUp extends AppCompatActivity {
                 });
             }
         });
+    }
 
+    private void sendEmailVerification() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            user.sendEmailVerification()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(SignUp.this, "Verification email sent to " + user.getEmail(), Toast.LENGTH_SHORT).show();
+
+                                // Navigate to WaitingActivity
+                                Intent intent = new Intent(SignUp.this, WaitingActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Toast.makeText(SignUp.this, "Failed to send verification email.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        }
     }
 }

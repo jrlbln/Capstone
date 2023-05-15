@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Capstone</string>
+    <string name="app_name">VarietEase</string>
     <string name="sell_manage_effectively"><![CDATA[Sell & Manage Effectively]]></string>
     <string name="title_activity_home">home</string>
     <!-- Strings used for fragments for navigation -->
