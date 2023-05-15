@@ -18,7 +18,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -38,6 +40,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -49,6 +52,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class Home extends AppCompatActivity {
 
@@ -67,7 +71,7 @@ public class Home extends AppCompatActivity {
     private LineChart lineChart;
     private final List<Sales.SalesData> salesDataList = new ArrayList<>();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,47 +94,6 @@ public class Home extends AppCompatActivity {
         xAxis.setValueFormatter(new DateFormatter()); // Apply the DateFormatter to the X-axis
 
         loadSalesData();
-
-        // Add some sample data for inventory table
-        inventoryData.add(new String[]{"iPhone", "10", "$1000"});
-        inventoryData.add(new String[]{"iPad", "20", "$800"});
-        inventoryData.add(new String[]{"MacBook Pro", "5", "$2000"});
-        inventoryData.add(new String[]{"Apple Watch", "15", "$400"});
-        inventoryData.add(new String[]{"AirPods Pro", "30", "$250"});
-        inventoryData.add(new String[]{"iPhone", "10", "$1000"});
-        inventoryData.add(new String[]{"iPad", "20", "$800"});
-        inventoryData.add(new String[]{"MacBook Pro", "5", "$2000"});
-        inventoryData.add(new String[]{"Apple Watch", "15", "$400"});
-        inventoryData.add(new String[]{"AirPods Pro", "30", "$250"});
-        inventoryData.add(new String[]{"iPhone", "10", "$1000"});
-        inventoryData.add(new String[]{"iPad", "20", "$800"});
-        inventoryData.add(new String[]{"MacBook Pro", "5", "$2000"});
-        inventoryData.add(new String[]{"Apple Watch", "15", "$400"});
-        inventoryData.add(new String[]{"AirPods Pro", "30", "$250"});
-
-        // Add some sample data for sales table
-        salesData.add(new String[]{"January", "$5000"});
-        salesData.add(new String[]{"February", "$3000"});
-        salesData.add(new String[]{"March", "$10000"});
-        salesData.add(new String[]{"April", "$2000"});
-        salesData.add(new String[]{"May", "$7500"});
-        salesData.add(new String[]{"June", "$5000"});
-        salesData.add(new String[]{"July", "$3000"});
-        salesData.add(new String[]{"August", "$10000"});
-        salesData.add(new String[]{"September", "$2000"});
-        salesData.add(new String[]{"October", "$7500"});
-
-        // Add some sample data for purchase table
-        purchaseData.add(new String[]{"iPhone"});
-        purchaseData.add(new String[]{"iPad"});
-        purchaseData.add(new String[]{"MacBook Pro"});
-        purchaseData.add(new String[]{"Apple Watch"});
-        purchaseData.add(new String[]{"AirPods Pro"});
-        purchaseData.add(new String[]{"iPhone"});
-        purchaseData.add(new String[]{"iPad"});
-        purchaseData.add(new String[]{"MacBook Pro"});
-        purchaseData.add(new String[]{"Apple Watch"});
-        purchaseData.add(new String[]{"AirPods Pro"});
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -190,97 +153,86 @@ public class Home extends AppCompatActivity {
             }
         });
 
-        // Add the table Inventory header
-        TableRow headerRow1 = new TableRow(this);
-        for (String header : inventoryHeaders) {
-            TextView textView = new TextView(this);
-            textView.setText(header);
-            textView.setTextSize(16);
-            textView.setPadding(10, 10, 10, 10);
-            textView.setBackgroundColor(getResources().getColor(R.color.white));
-            textView.setTextColor(getResources().getColor(R.color.purple));
-            headerRow1.addView(textView);
-        }
-        inventoryTableLayout.addView(headerRow1);
+        // Set up table headers
+        TableRow headerRow = new TableRow(this);
+        TextView nameHeader = new TextView(this);
+        TextView quantityHeader = new TextView(this);
+        TextView priceHeader = new TextView(this);
 
-        // Add the table Inventory data
-        int numRowsToShow1 = 15;
-        for (int i = 0; i < Math.min(inventoryData.size(), numRowsToShow1); i++) {
-            TableRow dataRow = new TableRow(this);
-            String[] row = inventoryData.get(i);
-            for (String rowData : row) {
-                TextView textView = new TextView(this);
-                textView.setText(rowData);
-                textView.setTextSize(16);
-                textView.setBackgroundColor(getResources().getColor(R.color.white));
-                textView.setTextColor(getResources().getColor(R.color.light_purple));
-                textView.setPadding(10, 10, 10, 10);
-                dataRow.addView(textView);
-            }
-            inventoryTableLayout.addView(dataRow);
-        }
+        nameHeader.setText("Item Name");
+        nameHeader.setTextColor(ContextCompat.getColor(this, R.color.white));
+        nameHeader.setTextSize(21);
+        nameHeader.setBackgroundColor(ContextCompat.getColor(this, R.color.purple));
+        nameHeader.setPadding(50, 18, 18, 18);
 
-        // Add the table Sales header
-        TableRow headerRow2 = new TableRow(this);
-        for (String header : salesHeaders) {
-            TextView textView = new TextView(this);
-            textView.setText(header);
-            textView.setTextSize(14);
-            textView.setPadding(10, 10, 10, 10);
-            textView.setBackgroundColor(getResources().getColor(R.color.white));
-            textView.setTextColor(getResources().getColor(R.color.purple));
-            headerRow2.addView(textView);
-        }
-        salesTableLayout.addView(headerRow2);
+        quantityHeader.setText("Quantity");
+        quantityHeader.setTextColor(ContextCompat.getColor(this, R.color.white));
+        quantityHeader.setTextSize(21);
+        quantityHeader.setBackgroundColor(ContextCompat.getColor(this, R.color.purple));
+        quantityHeader.setPadding(50, 18, 18, 18);
 
-        // Add the table Sales data
-        int numRowsToShow2 = 15;
-        for (int i = 0; i < Math.min(salesData.size(), numRowsToShow2); i++) {
-            TableRow dataRow = new TableRow(this);
-            String[] row = salesData.get(i);
-            for (String rowData : row) {
-                TextView textView = new TextView(this);
-                textView.setText(rowData);
-                textView.setTextSize(11);
-                textView.setBackgroundColor(getResources().getColor(R.color.white));
-                textView.setTextColor(getResources().getColor(R.color.light_purple));
-                textView.setPadding(10, 10, 10, 10);
-                dataRow.addView(textView);
-            }
-            salesTableLayout.addView(dataRow);
-        }
+        priceHeader.setText("Price");
+        priceHeader.setTextColor(ContextCompat.getColor(this, R.color.white));
+        priceHeader.setTextSize(21);
+        priceHeader.setBackgroundColor(ContextCompat.getColor(this, R.color.purple));
+        priceHeader.setPadding(50, 18, 18, 18);
 
-        // Add the table Purchase header
-        TableRow headerRow3 = new TableRow(this);
-        for (String header : purchaseHeaders) {
-            TextView textView = new TextView(this);
-            textView.setText(header);
-            textView.setTextSize(14);
-            textView.setPadding(5, 5, 5, 5);
-            textView.setBackgroundColor(getResources().getColor(R.color.white));
-            textView.setTextColor(getResources().getColor(R.color.purple));
-            headerRow3.addView(textView);
-        }
-        purchaseTableLayout.addView(headerRow3);
+        headerRow.addView(nameHeader);
+        headerRow.addView(quantityHeader);
+        headerRow.addView(priceHeader);
 
-        // Add the table Purchase data
-        int numRowsToShow = 10;
-        for (int i = 0; i < Math.min(purchaseData.size(), numRowsToShow); i++) {
-            TableRow dataRow = new TableRow(this);
-            String[] row = purchaseData.get(i);
-            for (String rowData : row) {
-                TextView textView = new TextView(this);
-                textView.setText(rowData);
-                textView.setTextSize(11);
-                textView.setBackgroundColor(getResources().getColor(R.color.white));
-                textView.setTextColor(getResources().getColor(R.color.light_purple));
-                textView.setPadding(5, 5, 5, 5);
-                dataRow.addView(textView);
-            }
-            purchaseTableLayout.addView(dataRow);
-        }
+        inventoryTableLayout.addView(headerRow, new TableLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        // Fetch data from Firestore
+        mAuth = FirebaseAuth.getInstance();
+        String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+        CollectionReference itemsRef = db.collection("users").document(userId).collection("item");
+
+        // Populate table with data from Firestore
+        itemsRef.get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (DocumentSnapshot document : task.getResult()) {
+                            String name = document.getString("name");
+                            double quantity = document.getDouble("quantity");
+                            double price = document.getDouble("price");
+                            String documentId = document.getId();
+
+                            TableRow row = new TableRow(this);
+                            row.setPadding(0, 4, 0, 4); // Set row padding
+                            //row.setBackgroundColor(Color.LTGRAY); // Set row background color
+
+                            TextView nameTextView = new TextView(this);
+                            nameTextView.setText(name);
+                            nameTextView.setTextColor(Color.BLACK);
+                            nameTextView.setTextSize(19);
+                            nameTextView.setPadding(110, 18, 18, 18);
+
+                            TextView quantityTextView = new TextView(this);
+                            quantityTextView.setText(String.valueOf(quantity));
+                            quantityTextView.setTextColor(Color.BLACK);
+                            quantityTextView.setTextSize(19);
+                            quantityTextView.setPadding(110, 18, 18, 18);
+
+                            TextView priceTextView = new TextView(this);
+                            priceTextView.setText(String.valueOf(price));
+                            priceTextView.setTextColor(Color.BLACK);
+                            priceTextView.setTextSize(19);
+                            priceTextView.setPadding(110, 18, 18, 18);
+
+                            row.addView(nameTextView);
+                            row.addView(quantityTextView);
+                            row.addView(priceTextView);
 
 
+                            inventoryTableLayout.addView(row, new TableLayout.LayoutParams(
+                                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        }
+                    } else {
+                        Log.d("ViewItems", "Error getting items", task.getException());
+                    }
+                });
     }
 
     //exit drawer
