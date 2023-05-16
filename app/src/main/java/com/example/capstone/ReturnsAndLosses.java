@@ -68,7 +68,7 @@ public class ReturnsAndLosses extends AppCompatActivity {
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(ReturnsAndLosses.this, "Item updated successfully", Toast.LENGTH_SHORT).show();
                                 // Navigate back to Inventory activity
-                                Intent intent = new Intent(ReturnsAndLosses.this, Inventory.class);
+                                Intent intent = new Intent(ReturnsAndLosses.this, EditItem.class);
                                 startActivity(intent);
                             }
                         })
