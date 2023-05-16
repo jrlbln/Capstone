@@ -173,13 +173,19 @@ public class Sales extends AppCompatActivity {
                     int quantity = document.getLong("quantity").intValue();
                     int prevQuantity = document.contains("prevQuantity") ? document.getLong("prevQuantity").intValue() : quantity;
                     double price = document.getDouble("price");
+                    int returns = document.contains("returns") ? document.getLong("returns").intValue() : 0;
+                    int losses = document.contains("losses") ? document.getLong("losses").intValue() : 0;
 
                     if (quantity < prevQuantity) {
-                        int netChange = prevQuantity - quantity;
+                        int netChange = prevQuantity - quantity - returns + losses;
                         double sales = netChange * price;
                         totalSales += sales;
                     }
 
+                    // Reset the returns and losses values to zero
+                    document.getReference().update("returns", 0, "losses", 0);
+
+                    // Update the prevQuantity field
                     document.getReference().update("prevQuantity", quantity);
                 }
 
