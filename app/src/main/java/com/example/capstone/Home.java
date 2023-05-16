@@ -56,14 +56,15 @@ import java.util.Objects;
 
 public class Home extends AppCompatActivity {
 
+    private TableRow salesHeaderRow;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private TableLayout inventoryTableLayout;
     private TableLayout salesTableLayout;
     private TableLayout purchaseTableLayout;
-    private String[] inventoryHeaders = {"Name", "Quantity", "Price"};
+    private String[] inventoryHeaders = {"Item Name", "Quantity", "Price"};
     private String[] salesHeaders = {"Date", "Sales"};
-    private String[] purchaseHeaders = {"Item"};
+    private String[] purchaseHeaders = {"Item Name"};
     private List<String[]> inventoryData = new ArrayList<>();
     private List<String[]> salesData = new ArrayList<>();
     private List<String[]> purchaseData = new ArrayList<>();
@@ -153,43 +154,70 @@ public class Home extends AppCompatActivity {
             }
         });
 
-        // Set up table headers
-        TableRow headerRow = new TableRow(this);
-        TextView nameHeader = new TextView(this);
-        TextView quantityHeader = new TextView(this);
-        TextView priceHeader = new TextView(this);
+        // Set up table headers for inventoryTableLayout
+        TableRow inventoryHeaderRow = new TableRow(this);
+        for (String header : inventoryHeaders) {
+            TextView headerTextView = new TextView(this);
+            headerTextView.setText(header);
+            headerTextView.setTextColor(Color.WHITE);
+            headerTextView.setTextSize(21);
+            headerTextView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple));
+            headerTextView.setPadding(50, 18, 18, 18);
 
-        nameHeader.setText("Item Name");
-        nameHeader.setTextColor(ContextCompat.getColor(this, R.color.white));
-        nameHeader.setTextSize(21);
-        nameHeader.setBackgroundColor(ContextCompat.getColor(this, R.color.purple));
-        nameHeader.setPadding(50, 18, 18, 18);
+            TableRow.LayoutParams params = new TableRow.LayoutParams(
+                    TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0, 0, 0, 2); // Add margin at the bottom of each header row
 
-        quantityHeader.setText("Quantity");
-        quantityHeader.setTextColor(ContextCompat.getColor(this, R.color.white));
-        quantityHeader.setTextSize(21);
-        quantityHeader.setBackgroundColor(ContextCompat.getColor(this, R.color.purple));
-        quantityHeader.setPadding(50, 18, 18, 18);
+            inventoryHeaderRow.addView(headerTextView, params);
+        }
+        inventoryTableLayout.addView(inventoryHeaderRow);
 
-        priceHeader.setText("Price");
-        priceHeader.setTextColor(ContextCompat.getColor(this, R.color.white));
-        priceHeader.setTextSize(21);
-        priceHeader.setBackgroundColor(ContextCompat.getColor(this, R.color.purple));
-        priceHeader.setPadding(50, 18, 18, 18);
+        // Set up table headers for purchaseTableLayout
+        TableRow purchaseHeaderRow = new TableRow(this);
+        for (String header : purchaseHeaders) {
+            TextView headerTextView = new TextView(this);
+            headerTextView.setText(header);
+            headerTextView.setTextColor(Color.WHITE);
+            headerTextView.setTextSize(21);
+            headerTextView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple));
+            headerTextView.setPadding(50, 18, 18, 18);
 
-        headerRow.addView(nameHeader);
-        headerRow.addView(quantityHeader);
-        headerRow.addView(priceHeader);
+            TableRow.LayoutParams params = new TableRow.LayoutParams(
+                    TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0, 0, 0, 2); // Add margin at the bottom of each header row
 
-        inventoryTableLayout.addView(headerRow, new TableLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            purchaseHeaderRow.addView(headerTextView, params);
+        }
+        purchaseTableLayout.addView(purchaseHeaderRow);
 
-        // Fetch data from Firestore
+        // Set up table headers for salesTableLayout
+        salesHeaderRow = new TableRow(this);
+        for (String header : salesHeaders) {
+            TextView headerTextView = new TextView(this);
+            headerTextView.setText(header);
+            headerTextView.setTextColor(Color.WHITE);
+            headerTextView.setTextSize(21);
+            headerTextView.setBackgroundColor(ContextCompat.getColor(this, R.color.purple));
+            headerTextView.setPadding(50, 18, 18, 18);
+
+            TableRow.LayoutParams params = new TableRow.LayoutParams(
+                    TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0, 0, 0, 2); // Add margin at the bottom of each header row
+
+            salesHeaderRow.addView(headerTextView, params);
+        }
+        salesTableLayout.addView(salesHeaderRow);
+
+        // Fetch data from Firestore and populate tables
+        fetchDataFromFirestore();
+    }
+
+    // Method to fetch data from Firestore and populate tables
+    private void fetchDataFromFirestore() {
         mAuth = FirebaseAuth.getInstance();
         String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         CollectionReference itemsRef = db.collection("users").document(userId).collection("item");
 
-        // Populate table with data from Firestore
         itemsRef.get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -197,13 +225,12 @@ public class Home extends AppCompatActivity {
                             String name = document.getString("name");
                             double quantity = document.getDouble("quantity");
                             double price = document.getDouble("price");
-                            String documentId = document.getId();
 
-                            TableRow row = new TableRow(this);
-                            row.setPadding(0, 4, 0, 4); // Set row padding
-                            //row.setBackgroundColor(Color.LTGRAY); // Set row background color
+                            // Create and add row to inventoryTableLayout
+                            TableRow inventoryRow = new TableRow(this);
 
                             TextView nameTextView = new TextView(this);
+                            nameTextView.setText(name);
                             nameTextView.setText(name);
                             nameTextView.setTextColor(Color.BLACK);
                             nameTextView.setTextSize(19);
@@ -215,26 +242,41 @@ public class Home extends AppCompatActivity {
                             quantityTextView.setTextSize(19);
                             quantityTextView.setPadding(110, 18, 18, 18);
 
+
                             TextView priceTextView = new TextView(this);
                             priceTextView.setText(String.valueOf(price));
                             priceTextView.setTextColor(Color.BLACK);
                             priceTextView.setTextSize(19);
                             priceTextView.setPadding(110, 18, 18, 18);
 
-                            row.addView(nameTextView);
-                            row.addView(quantityTextView);
-                            row.addView(priceTextView);
+                            inventoryRow.addView(nameTextView);
+                            inventoryRow.addView(quantityTextView);
+                            inventoryRow.addView(priceTextView);
 
+                            inventoryTableLayout.addView(inventoryRow);
 
-                            inventoryTableLayout.addView(row, new TableLayout.LayoutParams(
-                                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            // Check the quantity condition for purchaseTableLayout
+                            if (quantity <= 5) {
+                                // Create and add row to purchaseTableLayout
+                                TableRow purchaseRow = new TableRow(this);
+
+                                TextView purchaseNameTextView = new TextView(this);
+                                purchaseNameTextView.setText(name);
+                                purchaseNameTextView.setText(name);
+                                purchaseNameTextView.setTextColor(Color.BLACK);
+                                purchaseNameTextView.setTextSize(19);
+                                purchaseNameTextView.setPadding(110, 18, 18, 18);
+
+                                purchaseRow.addView(purchaseNameTextView);
+
+                                purchaseTableLayout.addView(purchaseRow);
+                            }
                         }
                     } else {
                         Log.d("ViewItems", "Error getting items", task.getException());
                     }
                 });
     }
-
     //exit drawer
     @Override
     public void onBackPressed() {
@@ -286,12 +328,41 @@ public class Home extends AppCompatActivity {
             }
         });
 
+        // Clear the table (except headers) and prepare to add new rows
+        salesTableLayout.removeViews(1, salesTableLayout.getChildCount() - 1);
+
         for (int i = 0; i < salesDataList.size(); i++) {
             Sales.SalesData salesData = salesDataList.get(i);
             float xAxisValue = i;
             float yAxisValue = (float) salesData.getSales();
             Entry chartEntry = new Entry(xAxisValue, yAxisValue);
             chartEntries.add(chartEntry);
+
+            // Create new TableRow for each SalesData
+            TableRow salesDataRow = new TableRow(this);
+
+            // Format the timestamp
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yy", Locale.getDefault());
+            String formattedDate = formatter.format(new Date(salesData.getTimestamp() * 1000));
+
+            TextView dateTextView = new TextView(this);
+            dateTextView.setText(formattedDate);
+            dateTextView.setTextColor(Color.BLACK);
+            dateTextView.setTextSize(19);
+            dateTextView.setPadding(110, 18, 18, 18);
+
+            TextView salesTextView = new TextView(this);
+            salesTextView.setText(String.valueOf(salesData.getSales()));
+            salesTextView.setTextColor(Color.BLACK);
+            salesTextView.setTextSize(19);
+            salesTextView.setPadding(110, 18, 18, 18);
+
+            // Add TextViews to the TableRow
+            salesDataRow.addView(dateTextView);
+            salesDataRow.addView(salesTextView);
+
+            // Add TableRow to the TableLayout
+            salesTableLayout.addView(salesDataRow);
         }
 
         LineDataSet lineDataSet = new LineDataSet(chartEntries, "My Data Set");
@@ -312,6 +383,7 @@ public class Home extends AppCompatActivity {
 
         lineChart.invalidate(); // Refresh the chart
     }
+
     public class SalesData {
         private double sales;
         private long timestamp;
@@ -337,7 +409,7 @@ public class Home extends AppCompatActivity {
         private SimpleDateFormat formatter;
 
         public DateFormatter() {
-            formatter = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy", Locale.getDefault());
+            formatter = new SimpleDateFormat("MM/dd/yy", Locale.getDefault());
         }
 
         @Override

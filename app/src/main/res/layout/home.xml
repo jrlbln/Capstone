@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -54,40 +54,41 @@
 
             <LinearLayout
                 android:id="@+id/LinearView"
-                android:layout_width="130dp"
-                android:layout_height="200dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="30dp"
+                android:background="@drawable/box3"
+                android:minHeight="200dp"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/line_chart">
+                app:layout_constraintTop_toBottomOf="@+id/LinearView2">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Purchase List"
+                    android:textAlignment="center"
                     android:textSize="15sp" />
 
-                <androidx.core.widget.NestedScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                <TableLayout
+                    android:id="@+id/purchase_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="*" />
 
-                    <TableLayout
-                        android:id="@+id/purchase_list"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:stretchColumns="*" />
-
-                </androidx.core.widget.NestedScrollView>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/LinearView2"
-                android:layout_width="130dp"
-                android:layout_height="200dp"
-                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/box3"
+                android:minHeight="200dp"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/line_chart">
@@ -96,28 +97,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Sales List"
+                    android:textAlignment="center"
                     android:textSize="15sp" />
 
-                <androidx.core.widget.NestedScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                <TableLayout
+                    android:id="@+id/sales_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="*" />
 
-                    <TableLayout
-                        android:id="@+id/sales_list"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:stretchColumns="*" />
-
-                </androidx.core.widget.NestedScrollView>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="30dp"
-                android:layout_marginRight="10dp"
+                android:background="@drawable/box3"
+                android:minHeight="400dp"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.473"
@@ -127,22 +125,22 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="Inventory"
-                    android:textSize="15sp"
-                    android:gravity="center"/>
+                    android:textSize="15sp" />
 
                 <TableLayout
                     android:id="@+id/inventory_table"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/box3"
+
                     android:stretchColumns="*" />
             </LinearLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
