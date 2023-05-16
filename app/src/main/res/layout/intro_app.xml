@@ -19,41 +19,40 @@
         android:id="@+id/imageView6"
         android:layout_width="209dp"
         android:layout_height="227dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.204"
         app:srcCompat="@drawable/v" />
 
     <TextView
         android:id="@+id/Intro"
         android:layout_width="321dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:fontFamily="@font/poppinsreg"
         android:text="VarietEase"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textColor="#0C0C0C"
         android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.634" />
+        app:layout_constraintEnd_toEndOf="@+id/imageView6"
+        app:layout_constraintStart_toStartOf="@+id/imageView6"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
     <TextView
+        android:id="@+id/textView10"
         android:layout_width="249dp"
         android:layout_height="118dp"
-        android:layout_marginTop="320dp"
+        android:layout_marginTop="40dp"
         android:fontFamily="@font/poppinsreg"
         android:gravity="center"
         android:justificationMode="inter_word"
         android:text="Manage and Track your Sales more efficiently with VarietEase"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/Intro"
+        app:layout_constraintStart_toStartOf="@+id/Intro"
+        app:layout_constraintTop_toBottomOf="@+id/Intro" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

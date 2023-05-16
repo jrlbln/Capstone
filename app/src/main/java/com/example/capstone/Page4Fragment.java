@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 public class Page4Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.get_started, container, false);
+        View view = inflater.inflate(R.layout.intro_sales, container, false);
         Button button = (Button) view.findViewById(R.id.start_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

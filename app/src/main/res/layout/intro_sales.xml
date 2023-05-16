@@ -10,18 +10,18 @@
         android:id="@+id/WelcomeIntro"
         android:layout_width="321dp"
         android:layout_height="wrap_content"
-        android:text="@string/sell_manage_effectively"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/poppinsreg"
+
+        android:text="@string/sell_manage_effectively"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textColor="#0C0C0C"
         android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.623" />
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <TextView
         android:id="@+id/textView"
@@ -31,10 +31,11 @@
         android:fontFamily="@font/poppinsreg"
         android:text="Helps you track your sales and see which products are the most in demand"
         android:textAlignment="center"
+        android:justificationMode="inter_word"
         android:textColor="#8F8F8F"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.473"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/WelcomeIntro"
+        app:layout_constraintStart_toStartOf="@+id/WelcomeIntro"
         app:layout_constraintTop_toBottomOf="@+id/WelcomeIntro" />
 
     <Button
@@ -58,12 +59,11 @@
         android:id="@+id/imageView"
         android:layout_width="286dp"
         android:layout_height="316dp"
-        android:layout_marginTop="28dp"
-        app:layout_constraintBottom_toTopOf="@+id/WelcomeIntro"
+        android:layout_marginTop="100dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.729"
         app:srcCompat="@drawable/loginpic" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

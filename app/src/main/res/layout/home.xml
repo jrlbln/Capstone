@@ -47,6 +47,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
+                android:background="@drawable/box3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.473"
                 app:layout_constraintStart_toStartOf="parent"
@@ -69,8 +70,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Purchase List"
+                    android:fontFamily="@font/poppinsreg"
                     android:textAlignment="center"
-                    android:textSize="15sp" />
+                    android:textColor="@color/black"
+                    android:textSize="25sp" />
 
                 <TableLayout
                     android:id="@+id/purchase_list"
@@ -97,8 +100,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Sales List"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/poppinsreg"
                     android:textAlignment="center"
-                    android:textSize="15sp" />
+                    android:textSize="25sp" />
 
                 <TableLayout
                     android:id="@+id/sales_list"
@@ -117,6 +122,7 @@
                 android:background="@drawable/box3"
                 android:minHeight="400dp"
                 android:orientation="vertical"
+                android:fontFamily="@font/poppinsreg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.473"
                 app:layout_constraintStart_toStartOf="parent"
@@ -127,7 +133,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Inventory"
-                    android:textSize="15sp" />
+                    android:textColor="@color/black"
+                    android:textSize="25sp" />
 
                 <TableLayout
                     android:id="@+id/inventory_table"
