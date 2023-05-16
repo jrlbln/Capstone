@@ -30,6 +30,7 @@ public class EditItem extends AppCompatActivity {
     private EditText editAddQuantity;
     private Button saveButton;
     private Button deleteButton;
+    private Button returnsAndLossesButton;
     private String documentId;
 
     @Override
@@ -42,6 +43,7 @@ public class EditItem extends AppCompatActivity {
         editPrice = findViewById(R.id.item_price);
         editAddQuantity = findViewById(R.id.add_quantity);
         saveButton = findViewById(R.id.save_button);
+        returnsAndLossesButton = findViewById(R.id.returns_and_losses_button);
         deleteButton = findViewById(R.id.delete_button);
 
         // Get the data from the Intent
@@ -141,6 +143,17 @@ public class EditItem extends AppCompatActivity {
                 // Create the AlertDialog object and display it
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
+            }
+        });
+
+        returnsAndLossesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Start the ReturnsAndLosses activity
+                Intent intent = new Intent(EditItem.this, ReturnsAndLosses.class);
+                // Pass the documentId to the ReturnsAndLosses activity
+                intent.putExtra("documentId", documentId);
+                startActivity(intent);
             }
         });
     }

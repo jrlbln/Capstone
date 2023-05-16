@@ -121,6 +121,24 @@
         app:layout_constraintVertical_bias="0.792" />
 
     <Button
+        android:id="@+id/returns_and_losses_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:width="200dp"
+        android:background="@drawable/gradientbutton"
+        android:clickable="true"
+        android:fontFamily="@font/poppinsreg"
+        android:text="Returns &amp; Losses"
+        android:textColor="#ffffff"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.888" />
+
+    <Button
         android:id="@+id/delete_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -136,12 +154,12 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.896" />
+        app:layout_constraintVertical_bias="0.976" />
 
     <ImageView
         android:id="@+id/imageView8"
-        android:layout_width="236dp"
-        android:layout_height="199dp"
+        android:layout_width="201dp"
+        android:layout_height="164dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="28dp"
         app:layout_constraintEnd_toEndOf="parent"
