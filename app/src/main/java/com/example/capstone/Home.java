@@ -342,8 +342,8 @@ public class Home extends AppCompatActivity {
             TableRow salesDataRow = new TableRow(this);
 
             // Format the timestamp
-            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yy", Locale.getDefault());
-            String formattedDate = formatter.format(new Date(salesData.getTimestamp() * 1000));
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
+            String formattedDate = formatter.format(new Date(salesData.getTimestamp()));
 
             TextView dateTextView = new TextView(this);
             dateTextView.setText(formattedDate);

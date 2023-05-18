@@ -168,6 +168,9 @@ public class EditItem extends AppCompatActivity {
                 Intent intent = new Intent(EditItem.this, ReturnsAndLosses.class);
                 // Pass the documentId to the ReturnsAndLosses activity
                 intent.putExtra("documentId", documentId);
+                intent.putExtra("name", name);
+                intent.putExtra("quantity", quantity);
+                intent.putExtra("price", price);
                 startActivity(intent);
             }
         });

@@ -56,6 +56,7 @@ public class Inventory extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
         tableLayout = findViewById(R.id.tableLayout);
 
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);

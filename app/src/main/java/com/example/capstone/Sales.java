@@ -312,13 +312,13 @@ public class Sales extends AppCompatActivity {
         private SimpleDateFormat formatter;
 
         public DateFormatter() {
-            formatter = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy", Locale.getDefault());
+            formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
         }
 
         @Override
         public String getFormattedValue(float value, AxisBase axis) {
             long timestamp = (long) value;
-            return formatter.format(new Date(timestamp * 1000)); // Convert back to milliseconds
+            return formatter.format(new Date(timestamp));
         }
     }
 }

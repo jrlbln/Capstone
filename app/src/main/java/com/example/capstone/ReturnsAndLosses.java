@@ -36,8 +36,11 @@ public class ReturnsAndLosses extends AppCompatActivity {
         editLosses = findViewById(R.id.item_losses);
         saveButton = findViewById(R.id.save_button);
 
-        // Get the document ID from the Intent
+        // Get the data from the Intent
         Intent intent = getIntent();
+        String name = intent.getStringExtra("name");
+        double quantity = intent.getDoubleExtra("quantity", 0);
+        double price = intent.getDoubleExtra("price", 0);
         documentId = intent.getStringExtra("documentId");
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -47,13 +50,10 @@ public class ReturnsAndLosses extends AppCompatActivity {
                 String returnsStr = editReturns.getText().toString();
                 String lossesStr = editLosses.getText().toString();
 
-                if (returnsStr.isEmpty() || lossesStr.isEmpty()) {
-                    Toast.makeText(ReturnsAndLosses.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                // Set values to 0 if the fields are empty
+                int returns = returnsStr.isEmpty() ? 0 : Integer.parseInt(returnsStr);
+                int losses = lossesStr.isEmpty() ? 0 : Integer.parseInt(lossesStr);
 
-                int returns = Integer.parseInt(returnsStr);
-                int losses = Integer.parseInt(lossesStr);
 
                 // Update the item in Firestore
                 String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
@@ -69,6 +69,10 @@ public class ReturnsAndLosses extends AppCompatActivity {
                                 Toast.makeText(ReturnsAndLosses.this, "Item updated successfully", Toast.LENGTH_SHORT).show();
                                 // Navigate back to Inventory activity
                                 Intent intent = new Intent(ReturnsAndLosses.this, EditItem.class);
+                                intent.putExtra("name", name);
+                                intent.putExtra("quantity", quantity);
+                                intent.putExtra("price", price);
+                                intent.putExtra("documentId", documentId);
                                 startActivity(intent);
                             }
                         })
