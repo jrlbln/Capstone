@@ -33,13 +33,11 @@ public class LandingPage extends AppCompatActivity {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean(FIRST_TIME_KEY, false);
             editor.apply();
-
-            // Show the landing page
-            setContentView(R.layout.landing_page);
         } else {
             // Navigate to the sign-in page
             startActivity(new Intent(this, SignIn.class));
             finish();
+            return;
         }
 
         //pages
