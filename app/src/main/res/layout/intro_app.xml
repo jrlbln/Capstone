@@ -17,9 +17,9 @@
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="209dp"
-        android:layout_height="227dp"
-        android:layout_marginTop="100dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -42,9 +42,9 @@
 
     <TextView
         android:id="@+id/textView10"
-        android:layout_width="249dp"
+        android:layout_width="250dp"
         android:layout_height="118dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/poppinsreg"
         android:gravity="center"
         android:justificationMode="inter_word"
