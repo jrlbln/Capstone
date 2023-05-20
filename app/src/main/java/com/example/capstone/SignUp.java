@@ -28,9 +28,7 @@ public class SignUp extends AppCompatActivity {
     private EditText mEmailField;
     private EditText mPasswordField;
     private EditText mConfirmPasswordField;
-
     private FirebaseAuth mAuth;
-    private FirebaseFirestore mFirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +36,6 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.sign_up);
 
         mAuth = FirebaseAuth.getInstance();
-        mFirestore = FirebaseFirestore.getInstance();
 
         Button signupButton = findViewById(R.id.signup_button);
         mEmailField = findViewById(R.id.email);
@@ -78,10 +75,6 @@ public class SignUp extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     // Send the email verification link
                                     sendEmailVerification();
-
-                                    // Create a new document in Firestore for this user
-                                    String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-                                    mFirestore.collection("users").document(userId).set(new HashMap<>());
 
                                 } else {
                                     Toast.makeText(SignUp.this, "Sign up failed. Please try again later.", Toast.LENGTH_SHORT).show();

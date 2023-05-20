@@ -34,7 +34,7 @@
     <TextView
         android:id="@+id/textView2"
         android:layout_width="317dp"
-        android:layout_height="65dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="350dp"
         android:fontFamily="@font/poppinsreg"
         android:gravity="center"
@@ -48,16 +48,15 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="352dp"
-        android:layout_height="83dp"
-        android:layout_marginTop="15dp"
+        android:layout_width="347dp"
+        android:layout_height="91dp"
+        android:layout_marginTop="12dp"
         android:fontFamily="@font/poppinsreg"
         android:gravity="center"
         android:text="Be sure to check your spam mail when verification mail is not found."
         android:textColor="#000000"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/textView2"
-        app:layout_constraintHorizontal_bias="0.171"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
