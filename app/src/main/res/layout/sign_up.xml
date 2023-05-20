@@ -7,17 +7,6 @@
     tools:context=".SignUp">
 
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="185dp"
-        android:layout_height="349dp"
-        android:layout_marginTop="44dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.969"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/account" />
-
     <TextView
         android:id="@+id/textView1"
         android:layout_width="196dp"
@@ -106,5 +95,15 @@
         app:layout_constraintEnd_toEndOf="@+id/confirmPassword"
         app:layout_constraintStart_toStartOf="@+id/confirmPassword"
         app:layout_constraintTop_toBottomOf="@+id/confirmPassword" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/wave"
+        android:rotation="180"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
