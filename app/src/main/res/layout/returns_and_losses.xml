@@ -6,11 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".ReturnsAndLosses">
 
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="208dp"
+        android:layout_height="255dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.847"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/itemreturnloss" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="138dp"
+        android:layout_height="146dp"
+        android:fontFamily="@font/poppinsreg"
+        android:text="Loss and Returns"
+        android:textColor="#040404"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.201"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.191" />
+
     <EditText
         android:id="@+id/item_returns"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="316dp"
         android:width="300dp"
         android:background="@drawable/inputdesign"
         android:elevation="2dp"
@@ -30,7 +56,7 @@
         android:id="@+id/item_losses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:width="300dp"
         android:background="@drawable/inputdesign"
         android:elevation="2dp"
@@ -42,7 +68,7 @@
         android:shadowColor="#2C2C2C"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/item_returns"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/item_returns"
         app:layout_constraintTop_toBottomOf="@+id/item_returns" />
 
@@ -50,7 +76,7 @@
         android:id="@+id/save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:width="200dp"
         android:background="@drawable/gradientbutton"
         android:clickable="true"
