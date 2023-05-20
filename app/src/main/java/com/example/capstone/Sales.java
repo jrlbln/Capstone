@@ -181,6 +181,10 @@ public class Sales extends AppCompatActivity {
                         double sales = netChange * price;
                         totalSales += sales;
                     }
+                    else {
+                        quantity = quantity - losses + returns;
+                        document.getReference().update("quantity", quantity);
+                    }
 
                     // Reset the returns and losses values to zero
                     document.getReference().update("returns", 0, "losses", 0);
