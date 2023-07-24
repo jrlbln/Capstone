@@ -86,6 +86,11 @@ public class EditItem extends AppCompatActivity {
                 double updatedAddQuantity = updatedAddQuantityStr.isEmpty() ? 0 : Double.parseDouble(updatedAddQuantityStr);
                 double updatedPrice = Double.parseDouble(updatedPriceStr);
 
+                if(updatedQuantity < 0 || updatedAddQuantity < 0 || updatedPrice < 0) {
+                    Toast.makeText(EditItem.this, "Negative values are not allowed", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 // Update the item in Firestore
                 String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
                 DocumentReference itemRef = db.collection("users").document(userId).collection("item").document(documentId);

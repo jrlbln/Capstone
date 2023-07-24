@@ -127,10 +127,17 @@ public class Inventory extends AppCompatActivity {
 
         // Set up table headers
         TableRow headerRow = new TableRow(this);
+        TextView itemNumberHeader = new TextView(this);
         TextView nameHeader = new TextView(this);
         TextView quantityHeader = new TextView(this);
         TextView priceHeader = new TextView(this);
         TextView editHeader = new TextView(this);
+
+        itemNumberHeader.setText("Item Number");
+        itemNumberHeader.setTextColor(ContextCompat.getColor(this, R.color.white));
+        itemNumberHeader.setTextSize(21);
+        itemNumberHeader.setBackgroundColor(ContextCompat.getColor(this, R.color.purple));
+        itemNumberHeader.setPadding(50, 18, 18, 18);
 
         nameHeader.setText("Item Name");
         nameHeader.setTextColor(ContextCompat.getColor(this, R.color.white));
@@ -156,7 +163,7 @@ public class Inventory extends AppCompatActivity {
         editHeader.setBackgroundColor(ContextCompat.getColor(this, R.color.purple));
         editHeader.setPadding(50, 18, 18, 18);
 
-
+        headerRow.addView(itemNumberHeader);
         headerRow.addView(nameHeader);
         headerRow.addView(quantityHeader);
         headerRow.addView(priceHeader);
@@ -172,10 +179,11 @@ public class Inventory extends AppCompatActivity {
         itemsRef = db.collection("users").document(userId).collection("item");
 
         // Populate table with data from Firestore
-        itemsRef.get()
+        itemsRef.orderBy("itemNumber").get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (DocumentSnapshot document : task.getResult()) {
+                            long itemNumber = document.getLong("itemNumber");
                             String name = document.getString("name");
                             double quantity = document.getDouble("quantity");
                             double price = document.getDouble("price");
@@ -184,6 +192,12 @@ public class Inventory extends AppCompatActivity {
                             TableRow row = new TableRow(this);
                             row.setPadding(0, 4, 0, 4); // Set row padding
                             //row.setBackgroundColor(Color.LTGRAY); // Set row background color
+
+                            TextView itemNumberTextView = new TextView(this);
+                            itemNumberTextView.setText(String.valueOf(itemNumber));
+                            itemNumberTextView.setTextColor(Color.BLACK);
+                            itemNumberTextView.setTextSize(19);
+                            itemNumberTextView.setPadding(110, 18, 18, 18);
 
                             TextView nameTextView = new TextView(this);
                             nameTextView.setText(name);
@@ -208,6 +222,7 @@ public class Inventory extends AppCompatActivity {
                             editButton.setBackgroundColor(Color.TRANSPARENT);
                             editButton.setPadding(10, 18, 18, 18);
 
+                            row.addView(itemNumberTextView);
                             row.addView(nameTextView);
                             row.addView(quantityTextView);
                             row.addView(priceTextView);

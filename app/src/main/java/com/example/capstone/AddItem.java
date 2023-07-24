@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -27,6 +28,7 @@ public class AddItem extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference itemsRef;
+    private DocumentReference itemNumberRef;
     private FirebaseAuth mAuth;
 
     private EditText nameEditText;
@@ -42,6 +44,7 @@ public class AddItem extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         itemsRef = db.collection("users").document(userId).collection("item");
+        itemNumberRef = db.collection("users").document(userId).collection("meta").document("itemNumber");
 
         nameEditText = findViewById(R.id.item_name);
         quantityEditText = findViewById(R.id.item_quantity);
@@ -62,23 +65,46 @@ public class AddItem extends AppCompatActivity {
             double quantity = Double.parseDouble(quantityStr);
             double price = Double.parseDouble(priceStr);
 
-            // Create a new item document with auto-generated ID
-            Map<String, Object> item = new HashMap<>();
-            item.put("name", name);
-            item.put("quantity", quantity);
-            item.put("price", price);
+            if(quantity < 0 || price < 0) {
+                Toast.makeText(AddItem.this, "Negative values are not allowed", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-            itemsRef.add(item)
-                    .addOnSuccessListener(documentReference -> {
-                        Toast.makeText(AddItem.this, "Item added successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(AddItem.this, Inventory.class);
-                        startActivity(intent);
-                        finish();
-                    })
-                    .addOnFailureListener(e -> {
-                        Log.d("AddItem", "Error adding item: ", e);
-                        Toast.makeText(AddItem.this, "Error adding item", Toast.LENGTH_SHORT).show();
-                    });
+            itemNumberRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        long itemNumber = document.getLong("nextItemNumber");
+                        // Create a new item document with the item number
+                        Map<String, Object> item = new HashMap<>();
+                        item.put("name", name);
+                        item.put("quantity", quantity);
+                        item.put("price", price);
+                        item.put("itemNumber", itemNumber);
+
+                        itemsRef.add(item)
+                                .addOnSuccessListener(documentReference -> {
+                                    // Increment the item number
+                                    itemNumberRef.update("nextItemNumber", itemNumber + 1)
+                                            .addOnSuccessListener(aVoid -> {
+                                                Toast.makeText(AddItem.this, "Item added successfully", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(AddItem.this, Inventory.class);
+                                                startActivity(intent);
+                                                finish();
+                                            });
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.d("AddItem", "Error adding item: ", e);
+                                    Toast.makeText(AddItem.this, "Error adding item", Toast.LENGTH_SHORT).show();
+                                });
+                    } else {
+                        Log.d("AddItem", "No such document");
+                    }
+                } else {
+                    Log.d("AddItem", "get failed with ", task.getException());
+                }
+            });
         });
     }
 }
+
