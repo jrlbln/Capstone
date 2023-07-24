@@ -1,6 +1,7 @@
 package com.example.capstone;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -25,8 +26,16 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Transaction;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class EditItem extends AppCompatActivity {
@@ -108,8 +117,19 @@ public class EditItem extends AppCompatActivity {
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(EditItem.this, "Item updated successfully", Toast.LENGTH_SHORT).show();
                                 double finalQuantity = updatedQuantity + updatedAddQuantity;
-                                if (finalQuantity <= 5) {
-                                    showLowStockNotification(updatedName);
+                                if (finalQuantity > quantity) {
+                                    Toast.makeText(EditItem.this, "Cannot consume more items than exist", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                if (updatedQuantity < quantity) {
+                                    double quantityToConsume = quantity - updatedQuantity;
+                                    consumeItemsFromBatches(itemRef, quantityToConsume);
+                                }
+
+                                // If quantity was increased, add a new batch
+                                if (updatedAddQuantity > 0) {
+                                    addBatchToItem(itemRef, updatedAddQuantity);
                                 }
 
                                 // Navigate back to Inventory activity
@@ -213,5 +233,61 @@ public class EditItem extends AppCompatActivity {
             // For simplicity, I'm showing a Toast message in this example
             Toast.makeText(this, "Vibration permission not granted.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void consumeItemsFromBatches(DocumentReference itemRef, double quantity) {
+        double[] quantityToConsume = {quantity};  // Create a mutable container for quantityToConsume
+
+        itemRef.collection("batches").orderBy("timestamp").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> batchesList = queryDocumentSnapshots.getDocuments();
+                db.runTransaction(new Transaction.Function<Void>() {
+                    @Nullable
+                    @Override
+                    public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+                        for (DocumentSnapshot document : batchesList) {
+                            double batchQuantity = document.getDouble("quantity");
+                            DocumentReference batchRef = document.getReference();
+
+                            if (quantityToConsume[0] >= batchQuantity) {
+                                // Consume the entire batch and delete it
+                                quantityToConsume[0] -= batchQuantity;
+                                transaction.delete(batchRef);
+                            } else {
+                                // Consume part of the batch and update its quantity
+                                double newBatchQuantity = batchQuantity - quantityToConsume[0];
+                                transaction.update(batchRef, "quantity", newBatchQuantity);
+                                break;
+                            }
+                        }
+
+                        return null;
+                    }
+                });
+            }
+        });
+    }
+
+    private void addBatchToItem(DocumentReference itemRef, double quantityToAdd) {
+        // Create a new batch document for the added items
+        Map<String, Object> batch = new HashMap<>();
+        batch.put("quantity", quantityToAdd);
+        batch.put("timestamp", FieldValue.serverTimestamp());
+
+        // Add the batch to the "batches" subcollection of the item
+        itemRef.collection("batches").add(batch)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(EditItem.this, "Batch added successfully", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(EditItem.this, "Error adding batch", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

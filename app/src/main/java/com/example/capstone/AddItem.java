@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -65,7 +66,7 @@ public class AddItem extends AppCompatActivity {
             double quantity = Double.parseDouble(quantityStr);
             double price = Double.parseDouble(priceStr);
 
-            if(quantity < 0 || price < 0) {
+            if (quantity < 0 || price < 0) {
                 Toast.makeText(AddItem.this, "Negative values are not allowed", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -85,12 +86,26 @@ public class AddItem extends AppCompatActivity {
                         itemsRef.add(item)
                                 .addOnSuccessListener(documentReference -> {
                                     // Increment the item number
-                                    itemNumberRef.update("nextItemNumber", itemNumber + 1)
-                                            .addOnSuccessListener(aVoid -> {
-                                                Toast.makeText(AddItem.this, "Item added successfully", Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(AddItem.this, Inventory.class);
-                                                startActivity(intent);
-                                                finish();
+                                    itemNumberRef.update("nextItemNumber", itemNumber + 1);
+                                    // Create a new batch document for the added items
+                                    Map<String, Object> batch = new HashMap<>();
+                                    batch.put("quantity", quantity);
+                                    batch.put("timestamp", FieldValue.serverTimestamp());
+
+                                    // Add the batch to the "batches" subcollection of the item
+                                    documentReference.collection("batches").add(batch)
+                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                @Override
+                                                public void onSuccess(DocumentReference documentReference) {
+                                                    Toast.makeText(AddItem.this, "Item added successfully", Toast.LENGTH_SHORT).show();
+                                                    Intent intent = new Intent(AddItem.this, Inventory.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Log.d("AddItem", "Error adding batch: ", e);
+                                                Toast.makeText(AddItem.this, "Error adding batch", Toast.LENGTH_SHORT).show();
                                             });
                                 })
                                 .addOnFailureListener(e -> {
