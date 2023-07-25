@@ -86,8 +86,8 @@ public class EditItem extends AppCompatActivity {
                 double updatedAddQuantity = updatedAddQuantityStr.isEmpty() ? 0 : Double.parseDouble(updatedAddQuantityStr);
                 double updatedPrice = Double.parseDouble(updatedPriceStr);
 
-                if(updatedQuantity < 0 || updatedAddQuantity < 0 || updatedPrice < 0) {
-                    Toast.makeText(EditItem.this, "Negative values are not allowed", Toast.LENGTH_SHORT).show();
+                if (updatedQuantity < 0 || updatedAddQuantity < 0 || updatedPrice < 0) {
+                    Toast.makeText(EditItem.this, "Quantity and price cannot be negative", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -194,23 +194,19 @@ public class EditItem extends AppCompatActivity {
     private void showLowStockNotification(String itemName) {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.VIBRATE)
                 == PackageManager.PERMISSION_GRANTED) {
-            // Create a vibration pattern
-            long[] pattern = {0, 500, 200, 500}; // Vibrate for 500ms, pause for 200ms, vibrate for 500ms
 
-            // Build the notification with vibration
+            long[] pattern = {0, 500, 200, 500};
+
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "notifyLowStock")
-                    .setSmallIcon(R.drawable.ic_notification) // replace with your own icon
+                    .setSmallIcon(R.drawable.ic_notification)
                     .setContentTitle("Low Stock Alert")
                     .setContentText(itemName + " is running low on stock.")
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setVibrate(pattern); // Set the vibration pattern
+                    .setVibrate(pattern);
 
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
             notificationManager.notify(NOTIFICATION_ID, builder.build());
         } else {
-            // Handle the case where the permission is not granted
-            // You can show a message to the user or request the permission here
-            // For simplicity, I'm showing a Toast message in this example
             Toast.makeText(this, "Vibration permission not granted.", Toast.LENGTH_SHORT).show();
         }
     }
